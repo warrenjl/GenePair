@@ -7,7 +7,7 @@ using namespace Rcpp;
 // [[Rcpp::export]]
 
 Rcpp::List Patristic(int mcmc_samples,
-                     arma::vec y,
+                     arma::vec log_patristic_distances,
                      arma::mat x_pair,
                      arma::mat x_ind,
                      arma::mat z,
@@ -33,6 +33,7 @@ Rcpp::List Patristic(int mcmc_samples,
                      Rcpp::Nullable<double> phi_init = R_NilValue){
 
 //Defining Parameters and Quantities of Interest
+arma::vec y = log_patristic_distances;
 int p_x = x_pair.n_cols;
 int p_d = x_ind.n_cols;
 int n = z.n_cols;

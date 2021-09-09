@@ -12,13 +12,13 @@ Rcpp::Rostream<false>& Rcpp::Rcerr = Rcpp::Rcpp_cerr_get();
 #endif
 
 // Patristic
-Rcpp::List Patristic(int mcmc_samples, arma::vec y, arma::mat x_pair, arma::mat x_ind, arma::mat z, arma::mat spatial_dists, arma::mat v, double metrop_var_phi_trans, Rcpp::Nullable<double> a_sigma2_epsilon_prior, Rcpp::Nullable<double> b_sigma2_epsilon_prior, Rcpp::Nullable<double> sigma2_regress_prior, Rcpp::Nullable<double> a_sigma2_zeta_prior, Rcpp::Nullable<double> b_sigma2_zeta_prior, Rcpp::Nullable<double> a_tau2_prior, Rcpp::Nullable<double> b_tau2_prior, Rcpp::Nullable<double> a_phi_prior, Rcpp::Nullable<double> b_phi_prior, Rcpp::Nullable<double> sigma2_epsilon_init, Rcpp::Nullable<Rcpp::NumericVector> beta_init, Rcpp::Nullable<Rcpp::NumericVector> gamma_init, Rcpp::Nullable<Rcpp::NumericVector> theta_init, Rcpp::Nullable<double> sigma2_zeta_init, Rcpp::Nullable<Rcpp::NumericVector> eta_init, Rcpp::Nullable<double> tau2_init, Rcpp::Nullable<double> phi_init);
-RcppExport SEXP _GenePair_Patristic(SEXP mcmc_samplesSEXP, SEXP ySEXP, SEXP x_pairSEXP, SEXP x_indSEXP, SEXP zSEXP, SEXP spatial_distsSEXP, SEXP vSEXP, SEXP metrop_var_phi_transSEXP, SEXP a_sigma2_epsilon_priorSEXP, SEXP b_sigma2_epsilon_priorSEXP, SEXP sigma2_regress_priorSEXP, SEXP a_sigma2_zeta_priorSEXP, SEXP b_sigma2_zeta_priorSEXP, SEXP a_tau2_priorSEXP, SEXP b_tau2_priorSEXP, SEXP a_phi_priorSEXP, SEXP b_phi_priorSEXP, SEXP sigma2_epsilon_initSEXP, SEXP beta_initSEXP, SEXP gamma_initSEXP, SEXP theta_initSEXP, SEXP sigma2_zeta_initSEXP, SEXP eta_initSEXP, SEXP tau2_initSEXP, SEXP phi_initSEXP) {
+Rcpp::List Patristic(int mcmc_samples, arma::vec log_patristic_distances, arma::mat x_pair, arma::mat x_ind, arma::mat z, arma::mat spatial_dists, arma::mat v, double metrop_var_phi_trans, Rcpp::Nullable<double> a_sigma2_epsilon_prior, Rcpp::Nullable<double> b_sigma2_epsilon_prior, Rcpp::Nullable<double> sigma2_regress_prior, Rcpp::Nullable<double> a_sigma2_zeta_prior, Rcpp::Nullable<double> b_sigma2_zeta_prior, Rcpp::Nullable<double> a_tau2_prior, Rcpp::Nullable<double> b_tau2_prior, Rcpp::Nullable<double> a_phi_prior, Rcpp::Nullable<double> b_phi_prior, Rcpp::Nullable<double> sigma2_epsilon_init, Rcpp::Nullable<Rcpp::NumericVector> beta_init, Rcpp::Nullable<Rcpp::NumericVector> gamma_init, Rcpp::Nullable<Rcpp::NumericVector> theta_init, Rcpp::Nullable<double> sigma2_zeta_init, Rcpp::Nullable<Rcpp::NumericVector> eta_init, Rcpp::Nullable<double> tau2_init, Rcpp::Nullable<double> phi_init);
+RcppExport SEXP _GenePair_Patristic(SEXP mcmc_samplesSEXP, SEXP log_patristic_distancesSEXP, SEXP x_pairSEXP, SEXP x_indSEXP, SEXP zSEXP, SEXP spatial_distsSEXP, SEXP vSEXP, SEXP metrop_var_phi_transSEXP, SEXP a_sigma2_epsilon_priorSEXP, SEXP b_sigma2_epsilon_priorSEXP, SEXP sigma2_regress_priorSEXP, SEXP a_sigma2_zeta_priorSEXP, SEXP b_sigma2_zeta_priorSEXP, SEXP a_tau2_priorSEXP, SEXP b_tau2_priorSEXP, SEXP a_phi_priorSEXP, SEXP b_phi_priorSEXP, SEXP sigma2_epsilon_initSEXP, SEXP beta_initSEXP, SEXP gamma_initSEXP, SEXP theta_initSEXP, SEXP sigma2_zeta_initSEXP, SEXP eta_initSEXP, SEXP tau2_initSEXP, SEXP phi_initSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< int >::type mcmc_samples(mcmc_samplesSEXP);
-    Rcpp::traits::input_parameter< arma::vec >::type y(ySEXP);
+    Rcpp::traits::input_parameter< arma::vec >::type log_patristic_distances(log_patristic_distancesSEXP);
     Rcpp::traits::input_parameter< arma::mat >::type x_pair(x_pairSEXP);
     Rcpp::traits::input_parameter< arma::mat >::type x_ind(x_indSEXP);
     Rcpp::traits::input_parameter< arma::mat >::type z(zSEXP);
@@ -42,7 +42,7 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< Rcpp::Nullable<Rcpp::NumericVector> >::type eta_init(eta_initSEXP);
     Rcpp::traits::input_parameter< Rcpp::Nullable<double> >::type tau2_init(tau2_initSEXP);
     Rcpp::traits::input_parameter< Rcpp::Nullable<double> >::type phi_init(phi_initSEXP);
-    rcpp_result_gen = Rcpp::wrap(Patristic(mcmc_samples, y, x_pair, x_ind, z, spatial_dists, v, metrop_var_phi_trans, a_sigma2_epsilon_prior, b_sigma2_epsilon_prior, sigma2_regress_prior, a_sigma2_zeta_prior, b_sigma2_zeta_prior, a_tau2_prior, b_tau2_prior, a_phi_prior, b_phi_prior, sigma2_epsilon_init, beta_init, gamma_init, theta_init, sigma2_zeta_init, eta_init, tau2_init, phi_init));
+    rcpp_result_gen = Rcpp::wrap(Patristic(mcmc_samples, log_patristic_distances, x_pair, x_ind, z, spatial_dists, v, metrop_var_phi_trans, a_sigma2_epsilon_prior, b_sigma2_epsilon_prior, sigma2_regress_prior, a_sigma2_zeta_prior, b_sigma2_zeta_prior, a_tau2_prior, b_tau2_prior, a_phi_prior, b_phi_prior, sigma2_epsilon_init, beta_init, gamma_init, theta_init, sigma2_zeta_init, eta_init, tau2_init, phi_init));
     return rcpp_result_gen;
 END_RCPP
 }

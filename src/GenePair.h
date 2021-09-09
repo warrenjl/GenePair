@@ -82,7 +82,7 @@ double neg_two_loglike_update(arma::vec y,
                               arma::vec theta);
 
 Rcpp::List Patristic(int mcmc_samples,
-                     arma::vec y,
+                     arma::vec log_patristic_distances,
                      arma::mat x_pair,
                      arma::mat x_ind,
                      arma::mat z,
