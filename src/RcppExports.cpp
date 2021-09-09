@@ -121,49 +121,6 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// rcpparma_hello_world
-arma::mat rcpparma_hello_world();
-RcppExport SEXP _GenePair_rcpparma_hello_world() {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    rcpp_result_gen = Rcpp::wrap(rcpparma_hello_world());
-    return rcpp_result_gen;
-END_RCPP
-}
-// rcpparma_outerproduct
-arma::mat rcpparma_outerproduct(const arma::colvec& x);
-RcppExport SEXP _GenePair_rcpparma_outerproduct(SEXP xSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< const arma::colvec& >::type x(xSEXP);
-    rcpp_result_gen = Rcpp::wrap(rcpparma_outerproduct(x));
-    return rcpp_result_gen;
-END_RCPP
-}
-// rcpparma_innerproduct
-double rcpparma_innerproduct(const arma::colvec& x);
-RcppExport SEXP _GenePair_rcpparma_innerproduct(SEXP xSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< const arma::colvec& >::type x(xSEXP);
-    rcpp_result_gen = Rcpp::wrap(rcpparma_innerproduct(x));
-    return rcpp_result_gen;
-END_RCPP
-}
-// rcpparma_bothproducts
-Rcpp::List rcpparma_bothproducts(const arma::colvec& x);
-RcppExport SEXP _GenePair_rcpparma_bothproducts(SEXP xSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< const arma::colvec& >::type x(xSEXP);
-    rcpp_result_gen = Rcpp::wrap(rcpparma_bothproducts(x));
-    return rcpp_result_gen;
-END_RCPP
-}
 // sigma2_epsilon_update
 double sigma2_epsilon_update(arma::vec y, arma::mat x_pair, arma::mat x_ind, arma::mat z, int n_star, double a_sigma2_epsilon, double b_sigma2_epsilon, arma::vec beta_old, arma::vec gamma_old, arma::vec theta_old);
 RcppExport SEXP _GenePair_sigma2_epsilon_update(SEXP ySEXP, SEXP x_pairSEXP, SEXP x_indSEXP, SEXP zSEXP, SEXP n_starSEXP, SEXP a_sigma2_epsilonSEXP, SEXP b_sigma2_epsilonSEXP, SEXP beta_oldSEXP, SEXP gamma_oldSEXP, SEXP theta_oldSEXP) {
@@ -257,10 +214,6 @@ static const R_CallMethodDef CallEntries[] = {
     {"_GenePair_eta_update", (DL_FUNC) &_GenePair_eta_update, 7},
     {"_GenePair_neg_two_loglike_update", (DL_FUNC) &_GenePair_neg_two_loglike_update, 9},
     {"_GenePair_phi_update", (DL_FUNC) &_GenePair_phi_update, 10},
-    {"_GenePair_rcpparma_hello_world", (DL_FUNC) &_GenePair_rcpparma_hello_world, 0},
-    {"_GenePair_rcpparma_outerproduct", (DL_FUNC) &_GenePair_rcpparma_outerproduct, 1},
-    {"_GenePair_rcpparma_innerproduct", (DL_FUNC) &_GenePair_rcpparma_innerproduct, 1},
-    {"_GenePair_rcpparma_bothproducts", (DL_FUNC) &_GenePair_rcpparma_bothproducts, 1},
     {"_GenePair_sigma2_epsilon_update", (DL_FUNC) &_GenePair_sigma2_epsilon_update, 10},
     {"_GenePair_sigma2_zeta_update", (DL_FUNC) &_GenePair_sigma2_zeta_update, 6},
     {"_GenePair_spatial_corr_fun", (DL_FUNC) &_GenePair_spatial_corr_fun, 3},

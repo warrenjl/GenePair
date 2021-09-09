@@ -24,7 +24,7 @@ double log_deter_inv_old = spatial_corr_info_old[1];
 double phi_trans_old = log(phi_old);
 
 double second = 0.50*log_deter_inv_old - 
-                (1.00/tau2)*0.50*dot(eta, (corr_inv_old*eta)) +
+                0.50*dot(eta, (corr_inv_old*eta))/tau2 +
                 a_phi*phi_trans_old -
                 b_phi*exp(phi_trans_old);
 
@@ -39,7 +39,7 @@ arma::mat corr_inv = spatial_corr_info[0];
 double log_deter_inv = spatial_corr_info[1];
 
 double first = 0.50*log_deter_inv - 
-               (1.00/tau2)*0.50*dot(eta, (corr_inv*eta)) +
+               0.50*dot(eta, (corr_inv*eta))/tau2 +
                a_phi*phi_trans -
                b_phi*exp(phi_trans);
 

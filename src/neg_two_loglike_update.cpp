@@ -20,8 +20,8 @@ arma::vec mu = x_pair*beta +
                x_ind*gamma +
                z*theta;
 
-double dens = -(n_star/2.00)*log(2*datum::pi*sigma2_epsilon) -
-              (0.50/sigma2_epsilon)*dot((y - mu), (y - mu));
+double dens = -0.50*n_star*log(2*datum::pi*sigma2_epsilon) -
+              0.50*dot((y - mu), (y - mu))/sigma2_epsilon;
 
 double neg_two_loglike = -2.00*dens;
 

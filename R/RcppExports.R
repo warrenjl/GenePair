@@ -21,22 +21,6 @@ phi_update <- function(spatial_dists, m, a_phi, b_phi, spatial_corr_info, eta, t
     .Call(`_GenePair_phi_update`, spatial_dists, m, a_phi, b_phi, spatial_corr_info, eta, tau2, phi_old, metrop_var_phi_trans, acctot_phi_trans)
 }
 
-rcpparma_hello_world <- function() {
-    .Call(`_GenePair_rcpparma_hello_world`)
-}
-
-rcpparma_outerproduct <- function(x) {
-    .Call(`_GenePair_rcpparma_outerproduct`, x)
-}
-
-rcpparma_innerproduct <- function(x) {
-    .Call(`_GenePair_rcpparma_innerproduct`, x)
-}
-
-rcpparma_bothproducts <- function(x) {
-    .Call(`_GenePair_rcpparma_bothproducts`, x)
-}
-
 sigma2_epsilon_update <- function(y, x_pair, x_ind, z, n_star, a_sigma2_epsilon, b_sigma2_epsilon, beta_old, gamma_old, theta_old) {
     .Call(`_GenePair_sigma2_epsilon_update`, y, x_pair, x_ind, z, n_star, a_sigma2_epsilon, b_sigma2_epsilon, beta_old, gamma_old, theta_old)
 }

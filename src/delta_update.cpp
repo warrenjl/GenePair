@@ -21,7 +21,8 @@ arma::mat cov_delta = inv_sympd(xtx/sigma2_epsilon +
 
 arma::vec mean_delta = cov_delta*(x_trans*(y - z*theta_old))/sigma2_epsilon;
 
-arma::mat ind_norms = arma::randn(1, (p_x + p_d));
+arma::mat ind_norms = arma::randn(1, 
+                                  (p_x + p_d));
 arma::vec delta = mean_delta + 
                   trans(ind_norms*arma::chol(cov_delta));
 
