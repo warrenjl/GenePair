@@ -54,8 +54,7 @@ arma::vec eta_update(arma::mat vtv,
                      double tau2_old,
                      arma::mat corr_inv);
 
-double tau2_update(arma::mat V,
-                   int m,
+double tau2_update(int m,
                    double a_tau2,
                    double b_tau2,
                    arma::vec eta,

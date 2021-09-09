@@ -23,6 +23,9 @@ arma::mat ind_norms = arma::randn(1, m);
 arma::vec eta = mean_eta + 
                 trans(ind_norms*arma::chol(cov_eta));
 
+eta = eta -
+      mean(eta);
+
 return(eta);
 
 }

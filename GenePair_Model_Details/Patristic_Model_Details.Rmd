@@ -1,0 +1,58 @@
+---
+output:
+  pdf_document: default
+  word_document: default
+  html_document: default
+---
+# GPCW: Gaussian Process Model for Critical Window Estimation
+
+## Statistical Model
+$$Y_i|\boldsymbol{\beta}, \boldsymbol{\theta} \stackrel{\text{ind}}{\sim} \text{Bernoulli}\left\{p_i\left(\boldsymbol{\beta}, \boldsymbol{\theta}\right)\right\},\ i=1,...,n;$$
+
+$$\log\left\{\frac{p_i\left(\boldsymbol{\beta}, \boldsymbol{\theta}\right)}{1 - p_i\left(\boldsymbol{\beta}, \boldsymbol{\theta}\right)}\right\} = \textbf{x}_i^{\text{T}} \boldsymbol{\beta} + \sum_{j=1}^{m_i} \text{z}_{ij} \theta\left(j\right);$$
+
+$$\boldsymbol{\theta}=\left\{\theta\left(1\right), ..., \theta\left(m\right)\right\}^{\text{T}}| \sigma^2_{\theta}, \phi \sim \text{MVN}\left\{\boldsymbol{0}_m, \sigma^2_{\theta}\Sigma\left(\phi\right)\right\};$$
+
+$$\Sigma\left(\phi\right)_{ij} = \exp\left\{-\phi |i-j|\right\},\ \phi > 0.$$
+
+* $m = \max\left\{m_i: i=1,...,n\right\};$
+
+* $\boldsymbol{0}_m$: Length $m$ vector with each entry equal to zero.
+
+## Prior Information
+$\beta_j \stackrel{\text{iid}}{\sim}\text{N}\left(0, \sigma^2_{\beta}\right),\ j=1,...,p;$
+
+* $p$: Length of $\textbf{x}_i$ vector (same for all $i$);
+
+* Default setting: $\sigma^2_{\beta} = 10,000.$
+
+$\sigma^2_{\theta} \sim \text{Inverse Gamma}\left(a_{\sigma^2_{\theta}}, b_{\sigma^2_{\theta}}\right);$
+
+* Default setting: $a_{\sigma^2_{\theta}} = 3$, $b_{\sigma^2_{\theta}} = 2.$
+
+$\phi \sim \text{Uniform}\left(a_{\phi}, b_{\phi}\right);$
+
+* Default setting: $a_{\phi} = \log(0.9999)/\left\{-(m-1)\right\}$, $b_{\phi} = \log(0.0001)/(-1).$
+
+## Default Initial Values
+* $\beta_j = 0$ for all $j$;
+
+* $\theta_j = 0$ for all $j$;
+
+* $\sigma^2_{\theta} = 1.00$;
+
+* $\phi = 0.01\left(b_{\phi} - a_{\phi}\right)$.
+
+## Alternate Likelihood
+$Y_i|\boldsymbol{\beta}, \boldsymbol{\theta}, \sigma^2_{\epsilon} \stackrel{\text{ind}}{\sim} \text{Normal}\left(\textbf{x}_i^{\text{T}} \boldsymbol{\beta} + \sum_{j=1}^{m_i} \text{z}_{ij} \theta\left(j\right), \sigma^2_{\epsilon}\right),\ i=1,...,n.$
+
+* $\sigma^2_{\epsilon} \sim \text{Inverse Gamma}\left(a_{\sigma^2_{\epsilon}}, b_{\sigma^2_{\epsilon}}\right);$ 
+
+* Default setting: $a_{\sigma^2_{\epsilon}} = 0.01$, $b_{\sigma^2_{\epsilon}} = 0.01$; 
+
+* Default initial value: $\sigma^2_{\epsilon} = 1.00$;
+
+* likelihood_indicator $= 0$: Bernoulli; 
+
+* likelihood_indicator $= 1$: Gaussian.
+

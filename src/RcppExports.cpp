@@ -214,18 +214,17 @@ BEGIN_RCPP
 END_RCPP
 }
 // tau2_update
-double tau2_update(arma::mat V, int m, double a_tau2, double b_tau2, arma::vec eta, arma::mat corr_inv);
-RcppExport SEXP _GenePair_tau2_update(SEXP VSEXP, SEXP mSEXP, SEXP a_tau2SEXP, SEXP b_tau2SEXP, SEXP etaSEXP, SEXP corr_invSEXP) {
+double tau2_update(int m, double a_tau2, double b_tau2, arma::vec eta, arma::mat corr_inv);
+RcppExport SEXP _GenePair_tau2_update(SEXP mSEXP, SEXP a_tau2SEXP, SEXP b_tau2SEXP, SEXP etaSEXP, SEXP corr_invSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< arma::mat >::type V(VSEXP);
     Rcpp::traits::input_parameter< int >::type m(mSEXP);
     Rcpp::traits::input_parameter< double >::type a_tau2(a_tau2SEXP);
     Rcpp::traits::input_parameter< double >::type b_tau2(b_tau2SEXP);
     Rcpp::traits::input_parameter< arma::vec >::type eta(etaSEXP);
     Rcpp::traits::input_parameter< arma::mat >::type corr_inv(corr_invSEXP);
-    rcpp_result_gen = Rcpp::wrap(tau2_update(V, m, a_tau2, b_tau2, eta, corr_inv));
+    rcpp_result_gen = Rcpp::wrap(tau2_update(m, a_tau2, b_tau2, eta, corr_inv));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -265,7 +264,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_GenePair_sigma2_epsilon_update", (DL_FUNC) &_GenePair_sigma2_epsilon_update, 10},
     {"_GenePair_sigma2_zeta_update", (DL_FUNC) &_GenePair_sigma2_zeta_update, 6},
     {"_GenePair_spatial_corr_fun", (DL_FUNC) &_GenePair_spatial_corr_fun, 3},
-    {"_GenePair_tau2_update", (DL_FUNC) &_GenePair_tau2_update, 6},
+    {"_GenePair_tau2_update", (DL_FUNC) &_GenePair_tau2_update, 5},
     {"_GenePair_theta_update", (DL_FUNC) &_GenePair_theta_update, 12},
     {NULL, NULL, 0}
 };

@@ -49,8 +49,8 @@ spatial_corr_fun <- function(m, spatial_dists, phi) {
     .Call(`_GenePair_spatial_corr_fun`, m, spatial_dists, phi)
 }
 
-tau2_update <- function(V, m, a_tau2, b_tau2, eta, corr_inv) {
-    .Call(`_GenePair_tau2_update`, V, m, a_tau2, b_tau2, eta, corr_inv)
+tau2_update <- function(m, a_tau2, b_tau2, eta, corr_inv) {
+    .Call(`_GenePair_tau2_update`, m, a_tau2, b_tau2, eta, corr_inv)
 }
 
 theta_update <- function(y, x_pair, x_ind, ztz, z_trans, v, n, sigma2_epsilon, beta, gamma, sigma2_zeta_old, eta_old) {

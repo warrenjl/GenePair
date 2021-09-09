@@ -225,8 +225,7 @@ for(int j = 1; j < mcmc_samples; ++j){
                    spatial_corr_info[0]);
   
   //tau2 Update
-  tau2(j) = tau2_update(v,
-                        m,
+  tau2(j) = tau2_update(m,
                         a_tau2,
                         b_tau2,
                         eta,

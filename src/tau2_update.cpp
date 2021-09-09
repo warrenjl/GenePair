@@ -6,8 +6,7 @@ using namespace Rcpp;
 // [[Rcpp::depends(RcppArmadillo)]]
 // [[Rcpp::export]]
 
-double tau2_update(arma::mat V,
-                   int m,
+double tau2_update(int m,
                    double a_tau2,
                    double b_tau2,
                    arma::vec eta,
