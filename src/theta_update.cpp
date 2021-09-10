@@ -29,6 +29,9 @@ arma::mat ind_norms = arma::randn(1,
 arma::vec theta = mean_theta + 
                   trans(ind_norms*arma::chol(cov_theta));
 
+theta = theta -
+        mean(theta);
+
 return(theta);
 
 }

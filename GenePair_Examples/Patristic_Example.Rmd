@@ -107,12 +107,13 @@ eta_true<-rmnorm(n = 1,
                  mean = rep(0.00, 
                             times = n), 
                  varcov = Sigma_true)
-eta_true<-eta_true -
-          mean(eta_true)
+
 theta_true<-eta_true +
             rnorm(n = n,
                   mean = 0.00,
                   sd = sqrt(sigma2_zeta_true))
+theta_true<-theta_true -
+            mean(theta_true)
 
 mu_true<-x_pair%*%beta_true +
          x_ind%*%gamma_true +
