@@ -149,18 +149,18 @@ if(phi_init.isNotNull()){
   phi(0) = Rcpp::as<double>(phi_init);
   }
 
-Rcpp::List spatial_corr_info = spatial_corr_fun(m, 
-                                                spatial_dists,
-                                                phi(0));
-neg_two_loglike(0) = neg_two_loglike_update(y,
-                                            x_pair,
-                                            x_ind,
-                                            z, 
-                                            n_star,
-                                            sigma2_epsilon(0),
-                                            beta.col(0),
-                                            gamma.col(0),
-                                            theta.col(0));
+Rcpp::List spatial_corr_info = spatial_corr_fun_pd(m, 
+                                                   spatial_dists,
+                                                   phi(0));
+neg_two_loglike(0) = neg_two_loglike_update_pd(y,
+                                               x_pair,
+                                               x_ind,
+                                               z, 
+                                               n_star,
+                                               sigma2_epsilon(0),
+                                               beta.col(0),
+                                               gamma.col(0),
+                                               theta.col(0));
 
 //Metropolis Settings
 int acctot_phi_trans = 0;
@@ -169,95 +169,95 @@ int acctot_phi_trans = 0;
 for(int j = 1; j < mcmc_samples; ++j){
   
    //sigma2_epsilon Update
-   sigma2_epsilon(j) = sigma2_epsilon_update(y,
-                                             x_pair,
-                                             x_ind,
-                                             z,
-                                             n_star,
-                                             a_sigma2_epsilon,
-                                             b_sigma2_epsilon,
-                                             beta.col(j-1),
-                                             gamma.col(j-1),
-                                             theta.col(j-1));
+   sigma2_epsilon(j) = sigma2_epsilon_update_pd(y,
+                                                x_pair,
+                                                x_ind,
+                                                z,
+                                                n_star,
+                                                a_sigma2_epsilon,
+                                                b_sigma2_epsilon,
+                                                beta.col(j-1),
+                                                gamma.col(j-1),
+                                                theta.col(j-1));
     
   //beta, gamma Update
-  Rcpp::List delta_output = delta_update(y,
-                                         xtx,
-                                         x_trans,
-                                         z,
-                                         p_x,
-                                         p_d,
-                                         x_prior,
-                                         sigma2_epsilon(j),
-                                         theta.col(j-1));
+  Rcpp::List delta_output = delta_update_pd(y,
+                                            xtx,
+                                            x_trans,
+                                            z,
+                                            p_x,
+                                            p_d,
+                                            x_prior,
+                                            sigma2_epsilon(j),
+                                            theta.col(j-1));
   
   beta.col(j) = Rcpp::as<arma::vec>(delta_output[0]);
   gamma.col(j) = Rcpp::as<arma::vec>(delta_output[1]);
   
   //theta Update
-  theta.col(j) = theta_update(y,
-                              x_pair,
-                              x_ind,
-                              ztz,
-                              z_trans,
-                              v,
-                              n,
-                              sigma2_epsilon(j),
-                              beta.col(j),
-                              gamma.col(j),
-                              sigma2_zeta(j-1),
-                              eta);
+  theta.col(j) = theta_update_pd(y,
+                                 x_pair,
+                                 x_ind,
+                                 ztz,
+                                 z_trans,
+                                 v,
+                                 n,
+                                 sigma2_epsilon(j),
+                                 beta.col(j),
+                                 gamma.col(j),
+                                 sigma2_zeta(j-1),
+                                 eta);
 
   //sigma2_zeta Update
-  sigma2_zeta(j) = sigma2_zeta_update(v,
-                                      n,
-                                      a_sigma2_zeta,
-                                      b_sigma2_zeta,
-                                      theta.col(j),
-                                      eta);
+  sigma2_zeta(j) = sigma2_zeta_update_pd(v,
+                                         n,
+                                         a_sigma2_zeta,
+                                         b_sigma2_zeta,
+                                         theta.col(j),
+                                         eta);
   
   //eta Update
-  eta = eta_update(vtv,
-                   v_trans,
-                   m,
-                   theta.col(j),
-                   sigma2_zeta(j),
-                   tau2(j-1),
-                   spatial_corr_info[0]);
+  eta = eta_update_pd(vtv,
+                      v_trans,
+                      m,
+                      theta.col(j),
+                      sigma2_zeta(j),
+                      tau2(j-1),
+                      spatial_corr_info[0]);
   
   //tau2 Update
-  tau2(j) = tau2_update(m,
-                        a_tau2,
-                        b_tau2,
-                        eta,
-                        spatial_corr_info[0]);
+  tau2(j) = tau2_update_pd(m,
+                           a_tau2,
+                           b_tau2,
+                           eta,
+                           spatial_corr_info[0]);
   
   //phi Update
-  Rcpp::List phi_output = phi_update(spatial_dists,
-                                     m,
-                                     a_phi,
-                                     b_phi,
-                                     spatial_corr_info,
-                                     eta,
-                                     tau2(j),
-                                     phi(j-1),
-                                     metrop_var_phi_trans,
-                                     acctot_phi_trans);
+  Rcpp::List phi_output = phi_update_pd(spatial_dists,
+                                        m,
+                                        a_phi,
+                                        b_phi,
+                                        spatial_corr_info,
+                                        eta,
+                                        tau2(j),
+                                        phi(j-1),
+                                        metrop_var_phi_trans,
+                                        acctot_phi_trans);
 
   phi(j) = Rcpp::as<double>(phi_output[0]);
   acctot_phi_trans = phi_output[1];
   spatial_corr_info = phi_output[2];
 
   //neg_two_loglike Update
-  neg_two_loglike(j) = neg_two_loglike_update(y,
-                                              x_pair,
-                                              x_ind,
-                                              z, 
-                                              n_star,
-                                              sigma2_epsilon(j),
-                                              beta.col(j),
-                                              gamma.col(j),
-                                              theta.col(j));
+  neg_two_loglike(j) = neg_two_loglike_update_pd(y,
+                                                 x_pair,
+                                                 x_ind,
+                                                 z, 
+                                                 n_star,
+                                                 sigma2_epsilon(j),
+                                                 beta.col(j),
+                                                 gamma.col(j),
+                                                 theta.col(j));
   
   //Progress
   if((j + 1) % 10 == 0){ 

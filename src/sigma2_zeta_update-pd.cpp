@@ -6,12 +6,12 @@ using namespace Rcpp;
 // [[Rcpp::depends(RcppArmadillo)]]
 // [[Rcpp::export]]
 
-double sigma2_zeta_update(arma::mat v,
-                          int n,
-                          double a_sigma2_zeta,
-                          double b_sigma2_zeta,
-                          arma::vec theta,
-                          arma::vec eta_old){
+double sigma2_zeta_update_pd(arma::mat v,
+                             int n,
+                             double a_sigma2_zeta,
+                             double b_sigma2_zeta,
+                             arma::vec theta,
+                             arma::vec eta_old){
 
 double a_sigma2_zeta_update = 0.50*n + 
                               a_sigma2_zeta;

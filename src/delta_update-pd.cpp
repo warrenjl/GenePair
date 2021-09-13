@@ -6,15 +6,15 @@ using namespace Rcpp;
 // [[Rcpp::depends(RcppArmadillo)]]
 // [[Rcpp::export]]
 
-Rcpp::List delta_update(arma::vec y,
-                        arma::mat xtx,
-                        arma::mat x_trans,
-                        arma::mat z,
-                        int p_x,
-                        int p_d,
-                        arma::mat x_prior,
-                        double sigma2_epsilon,
-                        arma::vec theta_old){
+Rcpp::List delta_update_pd(arma::vec y,
+                           arma::mat xtx,
+                           arma::mat x_trans,
+                           arma::mat z,
+                           int p_x,
+                           int p_d,
+                           arma::mat x_prior,
+                           double sigma2_epsilon,
+                           arma::vec theta_old){
 
 arma::mat cov_delta = inv_sympd(xtx/sigma2_epsilon + 
                                 x_prior);

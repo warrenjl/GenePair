@@ -46,9 +46,9 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// delta_update
-Rcpp::List delta_update(arma::vec y, arma::mat xtx, arma::mat x_trans, arma::mat z, int p_x, int p_d, arma::mat x_prior, double sigma2_epsilon, arma::vec theta_old);
-RcppExport SEXP _GenePair_delta_update(SEXP ySEXP, SEXP xtxSEXP, SEXP x_transSEXP, SEXP zSEXP, SEXP p_xSEXP, SEXP p_dSEXP, SEXP x_priorSEXP, SEXP sigma2_epsilonSEXP, SEXP theta_oldSEXP) {
+// delta_update_pd
+Rcpp::List delta_update_pd(arma::vec y, arma::mat xtx, arma::mat x_trans, arma::mat z, int p_x, int p_d, arma::mat x_prior, double sigma2_epsilon, arma::vec theta_old);
+RcppExport SEXP _GenePair_delta_update_pd(SEXP ySEXP, SEXP xtxSEXP, SEXP x_transSEXP, SEXP zSEXP, SEXP p_xSEXP, SEXP p_dSEXP, SEXP x_priorSEXP, SEXP sigma2_epsilonSEXP, SEXP theta_oldSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -61,13 +61,13 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< arma::mat >::type x_prior(x_priorSEXP);
     Rcpp::traits::input_parameter< double >::type sigma2_epsilon(sigma2_epsilonSEXP);
     Rcpp::traits::input_parameter< arma::vec >::type theta_old(theta_oldSEXP);
-    rcpp_result_gen = Rcpp::wrap(delta_update(y, xtx, x_trans, z, p_x, p_d, x_prior, sigma2_epsilon, theta_old));
+    rcpp_result_gen = Rcpp::wrap(delta_update_pd(y, xtx, x_trans, z, p_x, p_d, x_prior, sigma2_epsilon, theta_old));
     return rcpp_result_gen;
 END_RCPP
 }
-// eta_update
-arma::vec eta_update(arma::mat vtv, arma::mat v_trans, int m, arma::vec theta, double sigma2_zeta, double tau2_old, arma::mat corr_inv);
-RcppExport SEXP _GenePair_eta_update(SEXP vtvSEXP, SEXP v_transSEXP, SEXP mSEXP, SEXP thetaSEXP, SEXP sigma2_zetaSEXP, SEXP tau2_oldSEXP, SEXP corr_invSEXP) {
+// eta_update_pd
+arma::vec eta_update_pd(arma::mat vtv, arma::mat v_trans, int m, arma::vec theta, double sigma2_zeta, double tau2_old, arma::mat corr_inv);
+RcppExport SEXP _GenePair_eta_update_pd(SEXP vtvSEXP, SEXP v_transSEXP, SEXP mSEXP, SEXP thetaSEXP, SEXP sigma2_zetaSEXP, SEXP tau2_oldSEXP, SEXP corr_invSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -78,13 +78,13 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< double >::type sigma2_zeta(sigma2_zetaSEXP);
     Rcpp::traits::input_parameter< double >::type tau2_old(tau2_oldSEXP);
     Rcpp::traits::input_parameter< arma::mat >::type corr_inv(corr_invSEXP);
-    rcpp_result_gen = Rcpp::wrap(eta_update(vtv, v_trans, m, theta, sigma2_zeta, tau2_old, corr_inv));
+    rcpp_result_gen = Rcpp::wrap(eta_update_pd(vtv, v_trans, m, theta, sigma2_zeta, tau2_old, corr_inv));
     return rcpp_result_gen;
 END_RCPP
 }
-// neg_two_loglike_update
-double neg_two_loglike_update(arma::vec y, arma::mat x_pair, arma::mat x_ind, arma::mat z, int n_star, double sigma2_epsilon, arma::vec beta, arma::vec gamma, arma::vec theta);
-RcppExport SEXP _GenePair_neg_two_loglike_update(SEXP ySEXP, SEXP x_pairSEXP, SEXP x_indSEXP, SEXP zSEXP, SEXP n_starSEXP, SEXP sigma2_epsilonSEXP, SEXP betaSEXP, SEXP gammaSEXP, SEXP thetaSEXP) {
+// neg_two_loglike_update_pd
+double neg_two_loglike_update_pd(arma::vec y, arma::mat x_pair, arma::mat x_ind, arma::mat z, int n_star, double sigma2_epsilon, arma::vec beta, arma::vec gamma, arma::vec theta);
+RcppExport SEXP _GenePair_neg_two_loglike_update_pd(SEXP ySEXP, SEXP x_pairSEXP, SEXP x_indSEXP, SEXP zSEXP, SEXP n_starSEXP, SEXP sigma2_epsilonSEXP, SEXP betaSEXP, SEXP gammaSEXP, SEXP thetaSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -97,13 +97,13 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< arma::vec >::type beta(betaSEXP);
     Rcpp::traits::input_parameter< arma::vec >::type gamma(gammaSEXP);
     Rcpp::traits::input_parameter< arma::vec >::type theta(thetaSEXP);
-    rcpp_result_gen = Rcpp::wrap(neg_two_loglike_update(y, x_pair, x_ind, z, n_star, sigma2_epsilon, beta, gamma, theta));
+    rcpp_result_gen = Rcpp::wrap(neg_two_loglike_update_pd(y, x_pair, x_ind, z, n_star, sigma2_epsilon, beta, gamma, theta));
     return rcpp_result_gen;
 END_RCPP
 }
-// phi_update
-Rcpp::List phi_update(arma::mat spatial_dists, int m, double a_phi, double b_phi, Rcpp::List spatial_corr_info, arma::vec eta, double tau2, double phi_old, double metrop_var_phi_trans, int acctot_phi_trans);
-RcppExport SEXP _GenePair_phi_update(SEXP spatial_distsSEXP, SEXP mSEXP, SEXP a_phiSEXP, SEXP b_phiSEXP, SEXP spatial_corr_infoSEXP, SEXP etaSEXP, SEXP tau2SEXP, SEXP phi_oldSEXP, SEXP metrop_var_phi_transSEXP, SEXP acctot_phi_transSEXP) {
+// phi_update_pd
+Rcpp::List phi_update_pd(arma::mat spatial_dists, int m, double a_phi, double b_phi, Rcpp::List spatial_corr_info, arma::vec eta, double tau2, double phi_old, double metrop_var_phi_trans, int acctot_phi_trans);
+RcppExport SEXP _GenePair_phi_update_pd(SEXP spatial_distsSEXP, SEXP mSEXP, SEXP a_phiSEXP, SEXP b_phiSEXP, SEXP spatial_corr_infoSEXP, SEXP etaSEXP, SEXP tau2SEXP, SEXP phi_oldSEXP, SEXP metrop_var_phi_transSEXP, SEXP acctot_phi_transSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -117,13 +117,13 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< double >::type phi_old(phi_oldSEXP);
     Rcpp::traits::input_parameter< double >::type metrop_var_phi_trans(metrop_var_phi_transSEXP);
     Rcpp::traits::input_parameter< int >::type acctot_phi_trans(acctot_phi_transSEXP);
-    rcpp_result_gen = Rcpp::wrap(phi_update(spatial_dists, m, a_phi, b_phi, spatial_corr_info, eta, tau2, phi_old, metrop_var_phi_trans, acctot_phi_trans));
+    rcpp_result_gen = Rcpp::wrap(phi_update_pd(spatial_dists, m, a_phi, b_phi, spatial_corr_info, eta, tau2, phi_old, metrop_var_phi_trans, acctot_phi_trans));
     return rcpp_result_gen;
 END_RCPP
 }
-// sigma2_epsilon_update
-double sigma2_epsilon_update(arma::vec y, arma::mat x_pair, arma::mat x_ind, arma::mat z, int n_star, double a_sigma2_epsilon, double b_sigma2_epsilon, arma::vec beta_old, arma::vec gamma_old, arma::vec theta_old);
-RcppExport SEXP _GenePair_sigma2_epsilon_update(SEXP ySEXP, SEXP x_pairSEXP, SEXP x_indSEXP, SEXP zSEXP, SEXP n_starSEXP, SEXP a_sigma2_epsilonSEXP, SEXP b_sigma2_epsilonSEXP, SEXP beta_oldSEXP, SEXP gamma_oldSEXP, SEXP theta_oldSEXP) {
+// sigma2_epsilon_update_pd
+double sigma2_epsilon_update_pd(arma::vec y, arma::mat x_pair, arma::mat x_ind, arma::mat z, int n_star, double a_sigma2_epsilon, double b_sigma2_epsilon, arma::vec beta_old, arma::vec gamma_old, arma::vec theta_old);
+RcppExport SEXP _GenePair_sigma2_epsilon_update_pd(SEXP ySEXP, SEXP x_pairSEXP, SEXP x_indSEXP, SEXP zSEXP, SEXP n_starSEXP, SEXP a_sigma2_epsilonSEXP, SEXP b_sigma2_epsilonSEXP, SEXP beta_oldSEXP, SEXP gamma_oldSEXP, SEXP theta_oldSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -137,13 +137,13 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< arma::vec >::type beta_old(beta_oldSEXP);
     Rcpp::traits::input_parameter< arma::vec >::type gamma_old(gamma_oldSEXP);
     Rcpp::traits::input_parameter< arma::vec >::type theta_old(theta_oldSEXP);
-    rcpp_result_gen = Rcpp::wrap(sigma2_epsilon_update(y, x_pair, x_ind, z, n_star, a_sigma2_epsilon, b_sigma2_epsilon, beta_old, gamma_old, theta_old));
+    rcpp_result_gen = Rcpp::wrap(sigma2_epsilon_update_pd(y, x_pair, x_ind, z, n_star, a_sigma2_epsilon, b_sigma2_epsilon, beta_old, gamma_old, theta_old));
     return rcpp_result_gen;
 END_RCPP
 }
-// sigma2_zeta_update
-double sigma2_zeta_update(arma::mat v, int n, double a_sigma2_zeta, double b_sigma2_zeta, arma::vec theta, arma::vec eta_old);
-RcppExport SEXP _GenePair_sigma2_zeta_update(SEXP vSEXP, SEXP nSEXP, SEXP a_sigma2_zetaSEXP, SEXP b_sigma2_zetaSEXP, SEXP thetaSEXP, SEXP eta_oldSEXP) {
+// sigma2_zeta_update_pd
+double sigma2_zeta_update_pd(arma::mat v, int n, double a_sigma2_zeta, double b_sigma2_zeta, arma::vec theta, arma::vec eta_old);
+RcppExport SEXP _GenePair_sigma2_zeta_update_pd(SEXP vSEXP, SEXP nSEXP, SEXP a_sigma2_zetaSEXP, SEXP b_sigma2_zetaSEXP, SEXP thetaSEXP, SEXP eta_oldSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -153,26 +153,26 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< double >::type b_sigma2_zeta(b_sigma2_zetaSEXP);
     Rcpp::traits::input_parameter< arma::vec >::type theta(thetaSEXP);
     Rcpp::traits::input_parameter< arma::vec >::type eta_old(eta_oldSEXP);
-    rcpp_result_gen = Rcpp::wrap(sigma2_zeta_update(v, n, a_sigma2_zeta, b_sigma2_zeta, theta, eta_old));
+    rcpp_result_gen = Rcpp::wrap(sigma2_zeta_update_pd(v, n, a_sigma2_zeta, b_sigma2_zeta, theta, eta_old));
     return rcpp_result_gen;
 END_RCPP
 }
-// spatial_corr_fun
-Rcpp::List spatial_corr_fun(int m, arma::mat spatial_dists, double phi);
-RcppExport SEXP _GenePair_spatial_corr_fun(SEXP mSEXP, SEXP spatial_distsSEXP, SEXP phiSEXP) {
+// spatial_corr_fun_pd
+Rcpp::List spatial_corr_fun_pd(int m, arma::mat spatial_dists, double phi);
+RcppExport SEXP _GenePair_spatial_corr_fun_pd(SEXP mSEXP, SEXP spatial_distsSEXP, SEXP phiSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< int >::type m(mSEXP);
     Rcpp::traits::input_parameter< arma::mat >::type spatial_dists(spatial_distsSEXP);
     Rcpp::traits::input_parameter< double >::type phi(phiSEXP);
-    rcpp_result_gen = Rcpp::wrap(spatial_corr_fun(m, spatial_dists, phi));
+    rcpp_result_gen = Rcpp::wrap(spatial_corr_fun_pd(m, spatial_dists, phi));
     return rcpp_result_gen;
 END_RCPP
 }
-// tau2_update
-double tau2_update(int m, double a_tau2, double b_tau2, arma::vec eta, arma::mat corr_inv);
-RcppExport SEXP _GenePair_tau2_update(SEXP mSEXP, SEXP a_tau2SEXP, SEXP b_tau2SEXP, SEXP etaSEXP, SEXP corr_invSEXP) {
+// tau2_update_pd
+double tau2_update_pd(int m, double a_tau2, double b_tau2, arma::vec eta, arma::mat corr_inv);
+RcppExport SEXP _GenePair_tau2_update_pd(SEXP mSEXP, SEXP a_tau2SEXP, SEXP b_tau2SEXP, SEXP etaSEXP, SEXP corr_invSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -181,13 +181,13 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< double >::type b_tau2(b_tau2SEXP);
     Rcpp::traits::input_parameter< arma::vec >::type eta(etaSEXP);
     Rcpp::traits::input_parameter< arma::mat >::type corr_inv(corr_invSEXP);
-    rcpp_result_gen = Rcpp::wrap(tau2_update(m, a_tau2, b_tau2, eta, corr_inv));
+    rcpp_result_gen = Rcpp::wrap(tau2_update_pd(m, a_tau2, b_tau2, eta, corr_inv));
     return rcpp_result_gen;
 END_RCPP
 }
-// theta_update
-arma::vec theta_update(arma::vec y, arma::mat x_pair, arma::mat x_ind, arma::mat ztz, arma::mat z_trans, arma::mat v, int n, double sigma2_epsilon, arma::vec beta, arma::vec gamma, double sigma2_zeta_old, arma::vec eta_old);
-RcppExport SEXP _GenePair_theta_update(SEXP ySEXP, SEXP x_pairSEXP, SEXP x_indSEXP, SEXP ztzSEXP, SEXP z_transSEXP, SEXP vSEXP, SEXP nSEXP, SEXP sigma2_epsilonSEXP, SEXP betaSEXP, SEXP gammaSEXP, SEXP sigma2_zeta_oldSEXP, SEXP eta_oldSEXP) {
+// theta_update_pd
+arma::vec theta_update_pd(arma::vec y, arma::mat x_pair, arma::mat x_ind, arma::mat ztz, arma::mat z_trans, arma::mat v, int n, double sigma2_epsilon, arma::vec beta, arma::vec gamma, double sigma2_zeta_old, arma::vec eta_old);
+RcppExport SEXP _GenePair_theta_update_pd(SEXP ySEXP, SEXP x_pairSEXP, SEXP x_indSEXP, SEXP ztzSEXP, SEXP z_transSEXP, SEXP vSEXP, SEXP nSEXP, SEXP sigma2_epsilonSEXP, SEXP betaSEXP, SEXP gammaSEXP, SEXP sigma2_zeta_oldSEXP, SEXP eta_oldSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -203,22 +203,22 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< arma::vec >::type gamma(gammaSEXP);
     Rcpp::traits::input_parameter< double >::type sigma2_zeta_old(sigma2_zeta_oldSEXP);
     Rcpp::traits::input_parameter< arma::vec >::type eta_old(eta_oldSEXP);
-    rcpp_result_gen = Rcpp::wrap(theta_update(y, x_pair, x_ind, ztz, z_trans, v, n, sigma2_epsilon, beta, gamma, sigma2_zeta_old, eta_old));
+    rcpp_result_gen = Rcpp::wrap(theta_update_pd(y, x_pair, x_ind, ztz, z_trans, v, n, sigma2_epsilon, beta, gamma, sigma2_zeta_old, eta_old));
     return rcpp_result_gen;
 END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
     {"_GenePair_Patristic", (DL_FUNC) &_GenePair_Patristic, 25},
-    {"_GenePair_delta_update", (DL_FUNC) &_GenePair_delta_update, 9},
-    {"_GenePair_eta_update", (DL_FUNC) &_GenePair_eta_update, 7},
-    {"_GenePair_neg_two_loglike_update", (DL_FUNC) &_GenePair_neg_two_loglike_update, 9},
-    {"_GenePair_phi_update", (DL_FUNC) &_GenePair_phi_update, 10},
-    {"_GenePair_sigma2_epsilon_update", (DL_FUNC) &_GenePair_sigma2_epsilon_update, 10},
-    {"_GenePair_sigma2_zeta_update", (DL_FUNC) &_GenePair_sigma2_zeta_update, 6},
-    {"_GenePair_spatial_corr_fun", (DL_FUNC) &_GenePair_spatial_corr_fun, 3},
-    {"_GenePair_tau2_update", (DL_FUNC) &_GenePair_tau2_update, 5},
-    {"_GenePair_theta_update", (DL_FUNC) &_GenePair_theta_update, 12},
+    {"_GenePair_delta_update_pd", (DL_FUNC) &_GenePair_delta_update_pd, 9},
+    {"_GenePair_eta_update_pd", (DL_FUNC) &_GenePair_eta_update_pd, 7},
+    {"_GenePair_neg_two_loglike_update_pd", (DL_FUNC) &_GenePair_neg_two_loglike_update_pd, 9},
+    {"_GenePair_phi_update_pd", (DL_FUNC) &_GenePair_phi_update_pd, 10},
+    {"_GenePair_sigma2_epsilon_update_pd", (DL_FUNC) &_GenePair_sigma2_epsilon_update_pd, 10},
+    {"_GenePair_sigma2_zeta_update_pd", (DL_FUNC) &_GenePair_sigma2_zeta_update_pd, 6},
+    {"_GenePair_spatial_corr_fun_pd", (DL_FUNC) &_GenePair_spatial_corr_fun_pd, 3},
+    {"_GenePair_tau2_update_pd", (DL_FUNC) &_GenePair_tau2_update_pd, 5},
+    {"_GenePair_theta_update_pd", (DL_FUNC) &_GenePair_theta_update_pd, 12},
     {NULL, NULL, 0}
 };
 

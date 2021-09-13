@@ -6,16 +6,16 @@ using namespace Rcpp;
 // [[Rcpp::depends(RcppArmadillo)]]
 // [[Rcpp::export]]
 
-double sigma2_epsilon_update(arma::vec y,
-                             arma::mat x_pair,
-                             arma::mat x_ind,
-                             arma::mat z,
-                             int n_star,
-                             double a_sigma2_epsilon,
-                             double b_sigma2_epsilon,
-                             arma::vec beta_old,
-                             arma::vec gamma_old,
-                             arma::vec theta_old){
+double sigma2_epsilon_update_pd(arma::vec y,
+                                arma::mat x_pair,
+                                arma::mat x_ind,
+                                arma::mat z,
+                                int n_star,
+                                double a_sigma2_epsilon,
+                                double b_sigma2_epsilon,
+                                arma::vec beta_old,
+                                arma::vec gamma_old,
+                                arma::vec theta_old){
 
 double a_sigma2_epsilon_update = 0.50*n_star + 
                                  a_sigma2_epsilon;

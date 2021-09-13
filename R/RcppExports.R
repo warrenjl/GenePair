@@ -5,39 +5,39 @@ Patristic <- function(mcmc_samples, log_patristic_distances, x_pair, x_ind, z, s
     .Call(`_GenePair_Patristic`, mcmc_samples, log_patristic_distances, x_pair, x_ind, z, spatial_dists, v, metrop_var_phi_trans, a_sigma2_epsilon_prior, b_sigma2_epsilon_prior, sigma2_regress_prior, a_sigma2_zeta_prior, b_sigma2_zeta_prior, a_tau2_prior, b_tau2_prior, a_phi_prior, b_phi_prior, sigma2_epsilon_init, beta_init, gamma_init, theta_init, sigma2_zeta_init, eta_init, tau2_init, phi_init)
 }
 
-delta_update <- function(y, xtx, x_trans, z, p_x, p_d, x_prior, sigma2_epsilon, theta_old) {
-    .Call(`_GenePair_delta_update`, y, xtx, x_trans, z, p_x, p_d, x_prior, sigma2_epsilon, theta_old)
+delta_update_pd <- function(y, xtx, x_trans, z, p_x, p_d, x_prior, sigma2_epsilon, theta_old) {
+    .Call(`_GenePair_delta_update_pd`, y, xtx, x_trans, z, p_x, p_d, x_prior, sigma2_epsilon, theta_old)
 }
 
-eta_update <- function(vtv, v_trans, m, theta, sigma2_zeta, tau2_old, corr_inv) {
-    .Call(`_GenePair_eta_update`, vtv, v_trans, m, theta, sigma2_zeta, tau2_old, corr_inv)
+eta_update_pd <- function(vtv, v_trans, m, theta, sigma2_zeta, tau2_old, corr_inv) {
+    .Call(`_GenePair_eta_update_pd`, vtv, v_trans, m, theta, sigma2_zeta, tau2_old, corr_inv)
 }
 
-neg_two_loglike_update <- function(y, x_pair, x_ind, z, n_star, sigma2_epsilon, beta, gamma, theta) {
-    .Call(`_GenePair_neg_two_loglike_update`, y, x_pair, x_ind, z, n_star, sigma2_epsilon, beta, gamma, theta)
+neg_two_loglike_update_pd <- function(y, x_pair, x_ind, z, n_star, sigma2_epsilon, beta, gamma, theta) {
+    .Call(`_GenePair_neg_two_loglike_update_pd`, y, x_pair, x_ind, z, n_star, sigma2_epsilon, beta, gamma, theta)
 }
 
-phi_update <- function(spatial_dists, m, a_phi, b_phi, spatial_corr_info, eta, tau2, phi_old, metrop_var_phi_trans, acctot_phi_trans) {
-    .Call(`_GenePair_phi_update`, spatial_dists, m, a_phi, b_phi, spatial_corr_info, eta, tau2, phi_old, metrop_var_phi_trans, acctot_phi_trans)
+phi_update_pd <- function(spatial_dists, m, a_phi, b_phi, spatial_corr_info, eta, tau2, phi_old, metrop_var_phi_trans, acctot_phi_trans) {
+    .Call(`_GenePair_phi_update_pd`, spatial_dists, m, a_phi, b_phi, spatial_corr_info, eta, tau2, phi_old, metrop_var_phi_trans, acctot_phi_trans)
 }
 
-sigma2_epsilon_update <- function(y, x_pair, x_ind, z, n_star, a_sigma2_epsilon, b_sigma2_epsilon, beta_old, gamma_old, theta_old) {
-    .Call(`_GenePair_sigma2_epsilon_update`, y, x_pair, x_ind, z, n_star, a_sigma2_epsilon, b_sigma2_epsilon, beta_old, gamma_old, theta_old)
+sigma2_epsilon_update_pd <- function(y, x_pair, x_ind, z, n_star, a_sigma2_epsilon, b_sigma2_epsilon, beta_old, gamma_old, theta_old) {
+    .Call(`_GenePair_sigma2_epsilon_update_pd`, y, x_pair, x_ind, z, n_star, a_sigma2_epsilon, b_sigma2_epsilon, beta_old, gamma_old, theta_old)
 }
 
-sigma2_zeta_update <- function(v, n, a_sigma2_zeta, b_sigma2_zeta, theta, eta_old) {
-    .Call(`_GenePair_sigma2_zeta_update`, v, n, a_sigma2_zeta, b_sigma2_zeta, theta, eta_old)
+sigma2_zeta_update_pd <- function(v, n, a_sigma2_zeta, b_sigma2_zeta, theta, eta_old) {
+    .Call(`_GenePair_sigma2_zeta_update_pd`, v, n, a_sigma2_zeta, b_sigma2_zeta, theta, eta_old)
 }
 
-spatial_corr_fun <- function(m, spatial_dists, phi) {
-    .Call(`_GenePair_spatial_corr_fun`, m, spatial_dists, phi)
+spatial_corr_fun_pd <- function(m, spatial_dists, phi) {
+    .Call(`_GenePair_spatial_corr_fun_pd`, m, spatial_dists, phi)
 }
 
-tau2_update <- function(m, a_tau2, b_tau2, eta, corr_inv) {
-    .Call(`_GenePair_tau2_update`, m, a_tau2, b_tau2, eta, corr_inv)
+tau2_update_pd <- function(m, a_tau2, b_tau2, eta, corr_inv) {
+    .Call(`_GenePair_tau2_update_pd`, m, a_tau2, b_tau2, eta, corr_inv)
 }
 
-theta_update <- function(y, x_pair, x_ind, ztz, z_trans, v, n, sigma2_epsilon, beta, gamma, sigma2_zeta_old, eta_old) {
-    .Call(`_GenePair_theta_update`, y, x_pair, x_ind, ztz, z_trans, v, n, sigma2_epsilon, beta, gamma, sigma2_zeta_old, eta_old)
+theta_update_pd <- function(y, x_pair, x_ind, ztz, z_trans, v, n, sigma2_epsilon, beta, gamma, sigma2_zeta_old, eta_old) {
+    .Call(`_GenePair_theta_update_pd`, y, x_pair, x_ind, ztz, z_trans, v, n, sigma2_epsilon, beta, gamma, sigma2_zeta_old, eta_old)
 }
 

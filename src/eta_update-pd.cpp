@@ -6,13 +6,13 @@ using namespace Rcpp;
 // [[Rcpp::depends(RcppArmadillo)]]
 // [[Rcpp::export]]
 
-arma::vec eta_update(arma::mat vtv,
-                     arma::mat v_trans,
-                     int m,
-                     arma::vec theta,
-                     double sigma2_zeta,
-                     double tau2_old,
-                     arma::mat corr_inv){
+arma::vec eta_update_pd(arma::mat vtv,
+                        arma::mat v_trans,
+                        int m,
+                        arma::vec theta,
+                        double sigma2_zeta,
+                        double tau2_old,
+                        arma::mat corr_inv){
 
 arma::mat cov_eta = inv_sympd(vtv/sigma2_zeta + 
                               corr_inv/tau2_old);

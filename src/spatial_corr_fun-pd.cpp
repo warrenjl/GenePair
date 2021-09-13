@@ -6,9 +6,9 @@ using namespace Rcpp;
 // [[Rcpp::depends(RcppArmadillo)]]
 // [[Rcpp::export]]
 
-Rcpp::List spatial_corr_fun(int m,
-                            arma::mat spatial_dists,
-                            double phi){
+Rcpp::List spatial_corr_fun_pd(int m,
+                               arma::mat spatial_dists,
+                               double phi){
 
 double log_deter_inv = 0.00; 
 double sign = 0.00;     
