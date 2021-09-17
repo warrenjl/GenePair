@@ -6,12 +6,12 @@ using namespace Rcpp;
 // [[Rcpp::depends(RcppArmadillo)]]
 // [[Rcpp::export]]
 
-Rcpp::List phi_update_pd(arma::mat spatial_dists,
+Rcpp::List phi_update_tp(arma::mat spatial_dists,
                          int m,
                          double a_phi,
                          double b_phi,
-                         arma::vec eta,
-                         double tau2,
+                         arma::vec eta_full,
+                         arma::mat Sigma_inv,
                          double phi_old,
                          Rcpp::List spatial_corr_info,
                          double metrop_var_phi_trans,
@@ -23,8 +23,8 @@ arma::mat corr_inv_old = spatial_corr_info_old[0];
 double log_deter_inv_old = spatial_corr_info_old[1];
 double phi_trans_old = log(phi_old);
 
-double second = 0.50*log_deter_inv_old - 
-                0.50*dot(eta, (corr_inv_old*eta))/tau2 +
+double second = 2.00*log_deter_inv_old - 
+                0.50*dot(eta_full, (kron(Sigma_inv, corr_inv_old)*eta_full)) +
                 a_phi*phi_trans_old -
                 b_phi*exp(phi_trans_old);
 
@@ -38,8 +38,8 @@ spatial_corr_info = spatial_corr_fun(m,
 arma::mat corr_inv = spatial_corr_info[0];
 double log_deter_inv = spatial_corr_info[1];
 
-double first = 0.50*log_deter_inv - 
-               0.50*dot(eta, (corr_inv*eta))/tau2 +
+double first = 2.00*log_deter_inv - 
+               0.50*dot(eta_full, (kron(Sigma_inv, corr_inv)*eta_full)) +
                a_phi*phi_trans -
                b_phi*exp(phi_trans);
 

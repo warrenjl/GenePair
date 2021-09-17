@@ -22,14 +22,15 @@ $$\ln\left(Y_{ij}\right) = \textbf{x}_{ij}^{\text{T}}\boldsymbol{\beta} + \left(
 
 * $m$: Number of unique spatial locations ($m \leq n$);
 
-* $n$: Number of individuals.
+* $n$: Number of individuals;
+
 
 ## Prior Information
 $\beta_j, \gamma_k \stackrel{\text{iid}}{\sim}\text{N}\left(0, \sigma^2_{r}\right),\ j=1,...,p_x,\ k = 1,...,p_d;$
 
-* $p_x$: Length of $\textbf{x}_i$ vector (same for all $i$);
+* $p_x$: Length of $\textbf{x}_i$ vector (same for all $i$) which includes an intercept term;
 
-* $p_d$: Length of $\textbf{d}_j$ vector (same for all $j$);
+* $p_d$: Length of $\textbf{d}_j$ vector (same for all $j$) which \textbf{does not} include an intercept term;
 
 * Default setting: $\sigma^2_{r} = 10,000.$
 

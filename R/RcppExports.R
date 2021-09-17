@@ -5,39 +5,91 @@ Patristic <- function(mcmc_samples, log_patristic_distances, x_pair, x_ind, z, s
     .Call(`_GenePair_Patristic`, mcmc_samples, log_patristic_distances, x_pair, x_ind, z, spatial_dists, v, metrop_var_phi_trans, a_sigma2_epsilon_prior, b_sigma2_epsilon_prior, sigma2_regress_prior, a_sigma2_zeta_prior, b_sigma2_zeta_prior, a_tau2_prior, b_tau2_prior, a_phi_prior, b_phi_prior, sigma2_epsilon_init, beta_init, gamma_init, theta_init, sigma2_zeta_init, eta_init, tau2_init, phi_init)
 }
 
-delta_update_pd <- function(y, xtx, x_trans, z, p_x, p_d, x_prior, sigma2_epsilon, theta_old) {
-    .Call(`_GenePair_delta_update_pd`, y, xtx, x_trans, z, p_x, p_d, x_prior, sigma2_epsilon, theta_old)
+Sigma_update_tp <- function(m, Omega_Sigma_inv, nu_Sigma_inv, eta_z_g, eta_z_r, eta_w_g, eta_w_r, spatial_corr_inv) {
+    .Call(`_GenePair_Sigma_update_tp`, m, Omega_Sigma_inv, nu_Sigma_inv, eta_z_g, eta_z_r, eta_w_g, eta_w_r, spatial_corr_inv)
 }
 
-eta_update_pd <- function(vtv, v_trans, m, theta, sigma2_zeta, tau2_old, corr_inv) {
-    .Call(`_GenePair_eta_update_pd`, vtv, v_trans, m, theta, sigma2_zeta, tau2_old, corr_inv)
+Trans_Prob <- function(mcmc_samples, trans_probs, x_pair, x_ind_g, x_ind_r, z_g, z_r, spatial_dists, v, metrop_var_phi_trans, sigma2_regress_prior = NULL, a_sigma2_zeta_z_g_prior = NULL, b_sigma2_zeta_z_g_prior = NULL, a_sigma2_zeta_z_r_prior = NULL, b_sigma2_zeta_z_r_prior = NULL, a_sigma2_epsilon_prior = NULL, b_sigma2_epsilon_prior = NULL, a_sigma2_zeta_w_g_prior = NULL, b_sigma2_zeta_w_g_prior = NULL, a_sigma2_zeta_w_r_prior = NULL, b_sigma2_zeta_w_r_prior = NULL, Omega_Sigma_inv_prior = NULL, nu_Sigma_inv_prior = NULL, a_phi_prior = NULL, b_phi_prior = NULL, beta_z_init = NULL, gamma_z_g_init = NULL, gamma_z_r_init = NULL, theta_z_g_init = NULL, theta_z_r_init = NULL, sigma2_zeta_z_g_init = NULL, sigma2_zeta_z_r_init = NULL, eta_z_g_init = NULL, eta_z_r_init = NULL, sigma2_epsilon_init = NULL, beta_w_init = NULL, gamma_w_g_init = NULL, gamma_w_r_init = NULL, theta_w_g_init = NULL, theta_w_r_init = NULL, sigma2_zeta_w_g_init = NULL, sigma2_zeta_w_r_init = NULL, eta_w_g_init = NULL, eta_w_r_init = NULL, Sigma_init = NULL, phi_init = NULL) {
+    .Call(`_GenePair_Trans_Prob`, mcmc_samples, trans_probs, x_pair, x_ind_g, x_ind_r, z_g, z_r, spatial_dists, v, metrop_var_phi_trans, sigma2_regress_prior, a_sigma2_zeta_z_g_prior, b_sigma2_zeta_z_g_prior, a_sigma2_zeta_z_r_prior, b_sigma2_zeta_z_r_prior, a_sigma2_epsilon_prior, b_sigma2_epsilon_prior, a_sigma2_zeta_w_g_prior, b_sigma2_zeta_w_g_prior, a_sigma2_zeta_w_r_prior, b_sigma2_zeta_w_r_prior, Omega_Sigma_inv_prior, nu_Sigma_inv_prior, a_phi_prior, b_phi_prior, beta_z_init, gamma_z_g_init, gamma_z_r_init, theta_z_g_init, theta_z_r_init, sigma2_zeta_z_g_init, sigma2_zeta_z_r_init, eta_z_g_init, eta_z_r_init, sigma2_epsilon_init, beta_w_init, gamma_w_g_init, gamma_w_r_init, theta_w_g_init, theta_w_r_init, sigma2_zeta_w_g_init, sigma2_zeta_w_r_init, eta_w_g_init, eta_w_r_init, Sigma_init, phi_init)
+}
+
+delta_update_pd <- function(y, x_trans, xtx, z, p_x, p_d, x_prior, sigma2_epsilon, theta_old) {
+    .Call(`_GenePair_delta_update_pd`, y, x_trans, xtx, z, p_x, p_d, x_prior, sigma2_epsilon, theta_old)
+}
+
+delta_w_update_tp <- function(x, x_trans, xtx, p_x, p_d, x_prior, w, sigma2_epsilon, beta_w_old, gamma_w_g_old, gamma_w_r_old, mu_w_old) {
+    .Call(`_GenePair_delta_w_update_tp`, x, x_trans, xtx, p_x, p_d, x_prior, w, sigma2_epsilon, beta_w_old, gamma_w_g_old, gamma_w_r_old, mu_w_old)
+}
+
+delta_z_update_tp <- function(x, x_trans, p_x, p_d, x_prior, w_star, lambda, w_star_mat_delta, beta_z_old, gamma_z_g_old, gamma_z_r_old, mu_z_old) {
+    .Call(`_GenePair_delta_z_update_tp`, x, x_trans, p_x, p_d, x_prior, w_star, lambda, w_star_mat_delta, beta_z_old, gamma_z_g_old, gamma_z_r_old, mu_z_old)
+}
+
+eta_update_pd <- function(v_trans, vtv, m, theta, sigma2_zeta, tau2_old, corr_inv) {
+    .Call(`_GenePair_eta_update_pd`, v_trans, vtv, m, theta, sigma2_zeta, tau2_old, corr_inv)
+}
+
+eta_update_tp <- function(v_trans, vtv, m, theta, sigma2_zeta, eta_other, Sigma11, Sigma12, Sigma22_inv) {
+    .Call(`_GenePair_eta_update_tp`, v_trans, vtv, m, theta, sigma2_zeta, eta_other, Sigma11, Sigma12, Sigma22_inv)
 }
 
 neg_two_loglike_update_pd <- function(y, x_pair, x_ind, z, n_star, sigma2_epsilon, beta, gamma, theta) {
     .Call(`_GenePair_neg_two_loglike_update_pd`, y, x_pair, x_ind, z, n_star, sigma2_epsilon, beta, gamma, theta)
 }
 
-phi_update_pd <- function(spatial_dists, m, a_phi, b_phi, spatial_corr_info, eta, tau2, phi_old, metrop_var_phi_trans, acctot_phi_trans) {
-    .Call(`_GenePair_phi_update_pd`, spatial_dists, m, a_phi, b_phi, spatial_corr_info, eta, tau2, phi_old, metrop_var_phi_trans, acctot_phi_trans)
+neg_two_loglike_update_tp <- function(y, sigma2_epsilon, mu_z, mu_w) {
+    .Call(`_GenePair_neg_two_loglike_update_tp`, y, sigma2_epsilon, mu_z, mu_w)
+}
+
+phi_update_pd <- function(spatial_dists, m, a_phi, b_phi, eta, tau2, phi_old, spatial_corr_info, metrop_var_phi_trans, acctot_phi_trans) {
+    .Call(`_GenePair_phi_update_pd`, spatial_dists, m, a_phi, b_phi, eta, tau2, phi_old, spatial_corr_info, metrop_var_phi_trans, acctot_phi_trans)
+}
+
+phi_update_tp <- function(spatial_dists, m, a_phi, b_phi, eta_full, Sigma_inv, phi_old, spatial_corr_info, metrop_var_phi_trans, acctot_phi_trans) {
+    .Call(`_GenePair_phi_update_tp`, spatial_dists, m, a_phi, b_phi, eta_full, Sigma_inv, phi_old, spatial_corr_info, metrop_var_phi_trans, acctot_phi_trans)
+}
+
+rcpp_pgdraw <- function(b, c) {
+    .Call(`_GenePair_rcpp_pgdraw`, b, c)
 }
 
 sigma2_epsilon_update_pd <- function(y, x_pair, x_ind, z, n_star, a_sigma2_epsilon, b_sigma2_epsilon, beta_old, gamma_old, theta_old) {
     .Call(`_GenePair_sigma2_epsilon_update_pd`, y, x_pair, x_ind, z, n_star, a_sigma2_epsilon, b_sigma2_epsilon, beta_old, gamma_old, theta_old)
 }
 
-sigma2_zeta_update_pd <- function(v, n, a_sigma2_zeta, b_sigma2_zeta, theta, eta_old) {
-    .Call(`_GenePair_sigma2_zeta_update_pd`, v, n, a_sigma2_zeta, b_sigma2_zeta, theta, eta_old)
+sigma2_epsilon_update_tp <- function(n_star, a_sigma2_epsilon, b_sigma2_epsilon, w, mu_w) {
+    .Call(`_GenePair_sigma2_epsilon_update_tp`, n_star, a_sigma2_epsilon, b_sigma2_epsilon, w, mu_w)
 }
 
-spatial_corr_fun_pd <- function(m, spatial_dists, phi) {
-    .Call(`_GenePair_spatial_corr_fun_pd`, m, spatial_dists, phi)
+sigma2_zeta_update <- function(v, n, a_sigma2_zeta, b_sigma2_zeta, theta, eta_old) {
+    .Call(`_GenePair_sigma2_zeta_update`, v, n, a_sigma2_zeta, b_sigma2_zeta, theta, eta_old)
+}
+
+spatial_corr_fun <- function(m, spatial_dists, phi) {
+    .Call(`_GenePair_spatial_corr_fun`, m, spatial_dists, phi)
 }
 
 tau2_update_pd <- function(m, a_tau2, b_tau2, eta, corr_inv) {
     .Call(`_GenePair_tau2_update_pd`, m, a_tau2, b_tau2, eta, corr_inv)
 }
 
-theta_update_pd <- function(y, x_pair, x_ind, ztz, z_trans, v, n, sigma2_epsilon, beta, gamma, sigma2_zeta_old, eta_old) {
-    .Call(`_GenePair_theta_update_pd`, y, x_pair, x_ind, ztz, z_trans, v, n, sigma2_epsilon, beta, gamma, sigma2_zeta_old, eta_old)
+theta_update_pd <- function(y, x_pair, x_ind, z_trans, ztz, v, n, sigma2_epsilon, beta, gamma, sigma2_zeta_old, eta_old) {
+    .Call(`_GenePair_theta_update_pd`, y, x_pair, x_ind, z_trans, ztz, v, n, sigma2_epsilon, beta, gamma, sigma2_zeta_old, eta_old)
+}
+
+theta_w_update_tp <- function(z, z_trans, zgtzg, v, n, w, sigma2_epsilon, theta_w_old, sigma2_zeta_w_old, eta_w_old, mu_w_old) {
+    .Call(`_GenePair_theta_w_update_tp`, z, z_trans, zgtzg, v, n, w, sigma2_epsilon, theta_w_old, sigma2_zeta_w_old, eta_w_old, mu_w_old)
+}
+
+theta_z_update_tp <- function(z, z_trans, n, w_star, lambda, w_star_mat_theta, theta_z_old, sigma2_zeta_z_old, mu_z_old) {
+    .Call(`_GenePair_theta_z_update_tp`, z, z_trans, n, w_star, lambda, w_star_mat_theta, theta_z_old, sigma2_zeta_z_old, mu_z_old)
+}
+
+w_star_update_tp <- function(y, n_star, n, p_x, p_d, mu_z) {
+    .Call(`_GenePair_w_star_update_tp`, y, n_star, n, p_x, p_d, mu_z)
+}
+
+w_update_tp <- function(y, n_star, sigma2_epsilon_old, mu_w) {
+    .Call(`_GenePair_w_update_tp`, y, n_star, sigma2_epsilon_old, mu_w)
 }
 

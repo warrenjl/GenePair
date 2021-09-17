@@ -7,8 +7,8 @@ using namespace Rcpp;
 // [[Rcpp::export]]
 
 Rcpp::List delta_update_pd(arma::vec y,
-                           arma::mat xtx,
                            arma::mat x_trans,
+                           arma::mat xtx,
                            arma::mat z,
                            int p_x,
                            int p_d,

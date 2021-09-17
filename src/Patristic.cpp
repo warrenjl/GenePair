@@ -149,9 +149,9 @@ if(phi_init.isNotNull()){
   phi(0) = Rcpp::as<double>(phi_init);
   }
 
-Rcpp::List spatial_corr_info = spatial_corr_fun_pd(m, 
-                                                   spatial_dists,
-                                                   phi(0));
+Rcpp::List spatial_corr_info = spatial_corr_fun(m, 
+                                                spatial_dists,
+                                                phi(0));
 neg_two_loglike(0) = neg_two_loglike_update_pd(y,
                                                x_pair,
                                                x_ind,
@@ -180,101 +180,101 @@ for(int j = 1; j < mcmc_samples; ++j){
                                                 gamma.col(j-1),
                                                 theta.col(j-1));
     
-  //beta, gamma Update
-  Rcpp::List delta_output = delta_update_pd(y,
-                                            xtx,
-                                            x_trans,
-                                            z,
-                                            p_x,
-                                            p_d,
-                                            x_prior,
-                                            sigma2_epsilon(j),
-                                            theta.col(j-1));
+   //beta, gamma Update
+   Rcpp::List delta_output = delta_update_pd(y,
+                                             x_trans,
+                                             xtx,
+                                             z,
+                                             p_x,
+                                             p_d,
+                                             x_prior,
+                                             sigma2_epsilon(j),
+                                             theta.col(j-1));
   
-  beta.col(j) = Rcpp::as<arma::vec>(delta_output[0]);
-  gamma.col(j) = Rcpp::as<arma::vec>(delta_output[1]);
+   beta.col(j) = Rcpp::as<arma::vec>(delta_output[0]);
+   gamma.col(j) = Rcpp::as<arma::vec>(delta_output[1]);
   
-  //theta Update
-  theta.col(j) = theta_update_pd(y,
-                                 x_pair,
-                                 x_ind,
-                                 ztz,
-                                 z_trans,
-                                 v,
-                                 n,
-                                 sigma2_epsilon(j),
-                                 beta.col(j),
-                                 gamma.col(j),
-                                 sigma2_zeta(j-1),
-                                 eta);
+   //theta Update
+   theta.col(j) = theta_update_pd(y,
+                                  x_pair,
+                                  x_ind,
+                                  z_trans,
+                                  ztz,
+                                  v,
+                                  n,
+                                  sigma2_epsilon(j),
+                                  beta.col(j),
+                                  gamma.col(j),
+                                  sigma2_zeta(j-1),
+                                  eta);
 
-  //sigma2_zeta Update
-  sigma2_zeta(j) = sigma2_zeta_update_pd(v,
-                                         n,
-                                         a_sigma2_zeta,
-                                         b_sigma2_zeta,
-                                         theta.col(j),
-                                         eta);
+   //sigma2_zeta Update
+   sigma2_zeta(j) = sigma2_zeta_update(v,
+                                       n,
+                                       a_sigma2_zeta,
+                                       b_sigma2_zeta,
+                                       theta.col(j),
+                                       eta);
   
-  //eta Update
-  eta = eta_update_pd(vtv,
-                      v_trans,
-                      m,
-                      theta.col(j),
-                      sigma2_zeta(j),
-                      tau2(j-1),
-                      spatial_corr_info[0]);
-  
-  //tau2 Update
-  tau2(j) = tau2_update_pd(m,
-                           a_tau2,
-                           b_tau2,
-                           eta,
-                           spatial_corr_info[0]);
-  
-  //phi Update
-  Rcpp::List phi_output = phi_update_pd(spatial_dists,
-                                        m,
-                                        a_phi,
-                                        b_phi,
-                                        spatial_corr_info,
-                                        eta,
-                                        tau2(j),
-                                        phi(j-1),
-                                        metrop_var_phi_trans,
-                                        acctot_phi_trans);
+   //eta Update
+   eta = eta_update_pd(v_trans,
+                       vtv,
+                       m,
+                       theta.col(j),
+                       sigma2_zeta(j),
+                       tau2(j-1),
+                       spatial_corr_info[0]);
+   
+   //tau2 Update
+   tau2(j) = tau2_update_pd(m,
+                            a_tau2,
+                            b_tau2,
+                            eta,
+                            spatial_corr_info[0]);
+   
+   //phi Update
+   Rcpp::List phi_output = phi_update_pd(spatial_dists,
+                                         m,
+                                         a_phi,
+                                         b_phi,
+                                         eta,
+                                         tau2(j),
+                                         phi(j-1),
+                                         spatial_corr_info,
+                                         metrop_var_phi_trans,
+                                         acctot_phi_trans);
+ 
+   phi(j) = Rcpp::as<double>(phi_output[0]);
+   acctot_phi_trans = phi_output[1];
+   spatial_corr_info = phi_output[2];
 
-  phi(j) = Rcpp::as<double>(phi_output[0]);
-  acctot_phi_trans = phi_output[1];
-  spatial_corr_info = phi_output[2];
-
-  //neg_two_loglike Update
-  neg_two_loglike(j) = neg_two_loglike_update_pd(y,
-                                                 x_pair,
-                                                 x_ind,
-                                                 z, 
-                                                 n_star,
-                                                 sigma2_epsilon(j),
-                                                 beta.col(j),
-                                                 gamma.col(j),
-                                                 theta.col(j));
+   //neg_two_loglike Update
+   neg_two_loglike(j) = neg_two_loglike_update_pd(y,
+                                                  x_pair,
+                                                  x_ind,
+                                                  z, 
+                                                  n_star,
+                                                  sigma2_epsilon(j),
+                                                  beta.col(j),
+                                                  gamma.col(j),
+                                                  theta.col(j));
+   
+   //Progress
+   if((j + 1) % 10 == 0){ 
+     Rcpp::checkUserInterrupt();
+     }
   
-  //Progress
-  if((j + 1) % 10 == 0){ 
-    Rcpp::checkUserInterrupt();
-    }
-  
-  if(((j + 1) % int(round(mcmc_samples*0.10)) == 0)){
+   if(((j + 1) % int(round(mcmc_samples*0.10)) == 0)){
     
-    double completion = round(100*((j + 1)/(double)mcmc_samples));
-    Rcpp::Rcout << "Progress: " << completion << "%" << std::endl;
-    double accrate_phi_trans = round(100*(acctot_phi_trans/(double)j));
-    Rcpp::Rcout << "phi Acceptance: " << accrate_phi_trans << "%" << std::endl;
-    Rcpp::Rcout << "*******************" << std::endl;
-    
-    }
+     double completion = round(100*((j + 1)/(double)mcmc_samples));
+     Rcpp::Rcout << "Progress: " << completion << "%" << std::endl;
+     double accrate_phi_trans = round(100*(acctot_phi_trans/(double)j));
+     Rcpp::Rcout << "phi Acceptance: " << accrate_phi_trans << "%" << std::endl;
+     Rcpp::Rcout << "*******************" << std::endl;
+     
+     }
   
-  }
+   }
                                   
 return Rcpp::List::create(Rcpp::Named("sigma2_epsilon") = sigma2_epsilon,
                           Rcpp::Named("beta") = beta,
