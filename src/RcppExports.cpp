@@ -406,7 +406,7 @@ BEGIN_RCPP
 END_RCPP
 }
 // theta_w_update_tp
-Rcpp::List theta_w_update_tp(arma::mat z, arma::mat z_trans, arma::mat zgtzg, arma::mat v, int n, arma::vec w, arma::vec sigma2_epsilon, arma::vec theta_w_old, double sigma2_zeta_w_old, arma::vec eta_w_old, arma::vec mu_w_old);
+Rcpp::List theta_w_update_tp(arma::mat z, arma::mat z_trans, arma::mat zgtzg, arma::mat v, int n, arma::vec w, double sigma2_epsilon, arma::vec theta_w_old, double sigma2_zeta_w_old, arma::vec eta_w_old, arma::vec mu_w_old);
 RcppExport SEXP _GenePair_theta_w_update_tp(SEXP zSEXP, SEXP z_transSEXP, SEXP zgtzgSEXP, SEXP vSEXP, SEXP nSEXP, SEXP wSEXP, SEXP sigma2_epsilonSEXP, SEXP theta_w_oldSEXP, SEXP sigma2_zeta_w_oldSEXP, SEXP eta_w_oldSEXP, SEXP mu_w_oldSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
@@ -417,7 +417,7 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< arma::mat >::type v(vSEXP);
     Rcpp::traits::input_parameter< int >::type n(nSEXP);
     Rcpp::traits::input_parameter< arma::vec >::type w(wSEXP);
-    Rcpp::traits::input_parameter< arma::vec >::type sigma2_epsilon(sigma2_epsilonSEXP);
+    Rcpp::traits::input_parameter< double >::type sigma2_epsilon(sigma2_epsilonSEXP);
     Rcpp::traits::input_parameter< arma::vec >::type theta_w_old(theta_w_oldSEXP);
     Rcpp::traits::input_parameter< double >::type sigma2_zeta_w_old(sigma2_zeta_w_oldSEXP);
     Rcpp::traits::input_parameter< arma::vec >::type eta_w_old(eta_w_oldSEXP);
@@ -427,7 +427,7 @@ BEGIN_RCPP
 END_RCPP
 }
 // theta_z_update_tp
-Rcpp::List theta_z_update_tp(arma::mat z, arma::mat z_trans, int n, arma::vec w_star, arma::vec lambda, arma::vec w_star_mat_theta, arma::vec theta_z_old, double sigma2_zeta_z_old, arma::vec mu_z_old);
+Rcpp::List theta_z_update_tp(arma::mat z, arma::mat z_trans, int n, arma::vec w_star, arma::vec lambda, arma::mat w_star_mat_theta, arma::vec theta_z_old, double sigma2_zeta_z_old, arma::vec mu_z_old);
 RcppExport SEXP _GenePair_theta_z_update_tp(SEXP zSEXP, SEXP z_transSEXP, SEXP nSEXP, SEXP w_starSEXP, SEXP lambdaSEXP, SEXP w_star_mat_thetaSEXP, SEXP theta_z_oldSEXP, SEXP sigma2_zeta_z_oldSEXP, SEXP mu_z_oldSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
@@ -437,7 +437,7 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< int >::type n(nSEXP);
     Rcpp::traits::input_parameter< arma::vec >::type w_star(w_starSEXP);
     Rcpp::traits::input_parameter< arma::vec >::type lambda(lambdaSEXP);
-    Rcpp::traits::input_parameter< arma::vec >::type w_star_mat_theta(w_star_mat_thetaSEXP);
+    Rcpp::traits::input_parameter< arma::mat >::type w_star_mat_theta(w_star_mat_thetaSEXP);
     Rcpp::traits::input_parameter< arma::vec >::type theta_z_old(theta_z_oldSEXP);
     Rcpp::traits::input_parameter< double >::type sigma2_zeta_z_old(sigma2_zeta_z_oldSEXP);
     Rcpp::traits::input_parameter< arma::vec >::type mu_z_old(mu_z_oldSEXP);

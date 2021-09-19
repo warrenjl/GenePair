@@ -70,5 +70,4 @@ arma::mat Sigma = inv_sympd(Sigma_inv);
 return Rcpp::List::create(Rcpp::Named("Sigma") = Sigma,
                           Rcpp::Named("Sigma_inv") = Sigma_inv);
 
-
 }

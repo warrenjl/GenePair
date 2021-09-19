@@ -56,8 +56,8 @@ Rcpp::List Trans_Prob(int mcmc_samples,
 //Defining Parameters and Quantities of Interest
 arma::vec y = trans_probs;
 int p_x = x_pair.n_cols;
-int p_d = x_ind_g.n_cols;
-int n = z_g.n_cols;
+int p_d = x_ind_g.n_cols;  //x_g and x_r have the Same # of Columns
+int n = z_g.n_cols;  //z_g and z_r have the Same # of Columns
 int m = v.n_cols;
 int n_star = y.size();
 
@@ -308,13 +308,13 @@ neg_two_loglike(0) = neg_two_loglike_update_tp(y,
 int acctot_phi_trans = 0;
 
 //Main Sampling Loop
-arma::vec w_star(y.size()); w_star.fill(0.00);
-arma::vec lambda(y.size()); lambda.fill(0.00);
+arma::vec w_star(n_star); w_star.fill(0.00);
+arma::vec lambda(n_star); lambda.fill(0.00);
 arma::mat w_star_mat_delta(n_star, (p_x + 2*p_d)); w_star_mat_delta.fill(0.00);
 arma::mat w_star_mat_theta(n_star, n); w_star_mat_theta.fill(0.00);
-arma::vec w(y.size()); w.fill(0.00);
+arma::vec w(n_star); w.fill(0.00);
 arma::mat Sigma11(m,m); Sigma11.fill(0.00);
-arma::mat Sigma12((3*m), m); Sigma12.fill(0.00);
+arma::mat Sigma12(m, (3*m)); Sigma12.fill(0.00);
 arma::mat Sigma22_inv((3*m), (3*m)); Sigma22_inv.fill(0.00);
 arma::uvec index(3); index.fill(0);
 arma::vec eta_other(3*m); eta_other.fill(0.00);
@@ -380,7 +380,7 @@ for(int j = 1; j < mcmc_samples; ++j){
    
    theta_z_r.col(j) = Rcpp::as<arma::vec>(theta_z_r_output[0]);
    mu_z = Rcpp::as<arma::vec>(theta_z_r_output[1]);
-
+   
    //sigma2_zeta_z_g Update
    sigma2_zeta_z_g(j) = sigma2_zeta_update(v,
                                            n,
@@ -404,7 +404,8 @@ for(int j = 1; j < mcmc_samples; ++j){
                         Rcpp::as<arma::mat>(Sigma[j-1])(0,3)*Rcpp::as<arma::mat>(spatial_corr_info[2]));
   
    index(0) = 1; index(1) = 2; index(2) = 3;
-   Sigma22_inv = kron(inv_sympd(Rcpp::as<arma::mat>(Sigma[j-1]).submat(index, index)), Rcpp::as<arma::mat>(spatial_corr_info[0]));
+   Sigma22_inv = kron(inv_sympd(Rcpp::as<arma::mat>(Sigma[j-1]).submat(index, index)), 
+                      Rcpp::as<arma::mat>(spatial_corr_info[0]));
     
    eta_other = join_cols(eta_z_r,
                          eta_w_g,
@@ -427,7 +428,8 @@ for(int j = 1; j < mcmc_samples; ++j){
                         Rcpp::as<arma::mat>(Sigma[j-1])(1,3)*Rcpp::as<arma::mat>(spatial_corr_info[2]));
   
    index(0) = 0; index(1) = 2; index(2) = 3;
-   Sigma22_inv = kron(inv_sympd(Rcpp::as<arma::mat>(Sigma[j-1]).submat(index, index)), Rcpp::as<arma::mat>(spatial_corr_info[0]));
+   Sigma22_inv = kron(inv_sympd(Rcpp::as<arma::mat>(Sigma[j-1]).submat(index, index)), 
+                      Rcpp::as<arma::mat>(spatial_corr_info[0]));
   
    eta_other = join_cols(eta_z_g,
                          eta_w_g,
@@ -482,7 +484,7 @@ for(int j = 1; j < mcmc_samples; ++j){
                                                    v,
                                                    n,
                                                    w,
-                                                   sigma2_epsilon,
+                                                   sigma2_epsilon(j),
                                                    theta_w_g.col(j-1),
                                                    sigma2_zeta_w_g(j-1),
                                                    eta_w_g,
@@ -498,11 +500,11 @@ for(int j = 1; j < mcmc_samples; ++j){
                                                    v,
                                                    n,
                                                    w,
-                                                   sigma2_epsilon,
+                                                   sigma2_epsilon(j),
                                                    theta_w_r.col(j-1),
-                                                   sigma2_zeta_z_r(j-1),
+                                                   sigma2_zeta_w_r(j-1),
                                                    eta_w_r,
-                                                   mu_z);
+                                                   mu_w);
   
    theta_w_r.col(j) = Rcpp::as<arma::vec>(theta_w_r_output[0]);
    mu_w = Rcpp::as<arma::vec>(theta_w_r_output[1]);
@@ -530,7 +532,8 @@ for(int j = 1; j < mcmc_samples; ++j){
                         Rcpp::as<arma::mat>(Sigma[j-1])(2,3)*Rcpp::as<arma::mat>(spatial_corr_info[2]));
    
    index(0) = 0; index(1) = 1; index(2) = 3;
-   Sigma22_inv = kron(inv_sympd(Rcpp::as<arma::mat>(Sigma[j-1]).submat(index, index)), Rcpp::as<arma::mat>(spatial_corr_info[0]));
+   Sigma22_inv = kron(inv_sympd(Rcpp::as<arma::mat>(Sigma[j-1]).submat(index, index)), 
+                      Rcpp::as<arma::mat>(spatial_corr_info[0]));
    
    eta_other = join_cols(eta_z_g,
                          eta_z_r,
@@ -548,12 +551,13 @@ for(int j = 1; j < mcmc_samples; ++j){
    
    //eta_w_r Update
    Sigma11 = Rcpp::as<arma::mat>(Sigma[j-1])(3,3)*Rcpp::as<arma::mat>(spatial_corr_info[2]);
-   Sigma12 = join_horiz(Rcpp::as<arma::mat>(Sigma[j-1])(1,0)*Rcpp::as<arma::mat>(spatial_corr_info[2]),
-                        Rcpp::as<arma::mat>(Sigma[j-1])(1,1)*Rcpp::as<arma::mat>(spatial_corr_info[2]),
-                        Rcpp::as<arma::mat>(Sigma[j-1])(1,2)*Rcpp::as<arma::mat>(spatial_corr_info[2]));
+   Sigma12 = join_horiz(Rcpp::as<arma::mat>(Sigma[j-1])(3,0)*Rcpp::as<arma::mat>(spatial_corr_info[2]),
+                        Rcpp::as<arma::mat>(Sigma[j-1])(3,1)*Rcpp::as<arma::mat>(spatial_corr_info[2]),
+                        Rcpp::as<arma::mat>(Sigma[j-1])(3,2)*Rcpp::as<arma::mat>(spatial_corr_info[2]));
    
    index(0) = 0; index(1) = 1; index(2) = 2;
-   Sigma22_inv = kron(inv_sympd(Rcpp::as<arma::mat>(Sigma[j-1]).submat(index, index)), Rcpp::as<arma::mat>(spatial_corr_info[0]));
+   Sigma22_inv = kron(inv_sympd(Rcpp::as<arma::mat>(Sigma[j-1]).submat(index, index)), 
+                      Rcpp::as<arma::mat>(spatial_corr_info[0]));
    
    eta_other = join_cols(eta_z_g,
                          eta_z_r,
@@ -604,10 +608,10 @@ for(int j = 1; j < mcmc_samples; ++j){
    spatial_corr_info = phi_output[2];
 
    //neg_two_loglike Update
-   neg_two_loglike_update_tp(y,
-                             sigma2_epsilon(j),
-                             mu_z,
-                             mu_w);
+   neg_two_loglike(j) = neg_two_loglike_update_tp(y,
+                                                  sigma2_epsilon(j),
+                                                  mu_z,
+                                                  mu_w);
   
    //Progress
    if((j + 1) % 10 == 0){ 

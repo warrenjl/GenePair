@@ -11,7 +11,7 @@ Rcpp::List theta_z_update_tp(arma::mat z,
                              int n,
                              arma::vec w_star,
                              arma::vec lambda,
-                             arma::vec w_star_mat_theta,
+                             arma::mat w_star_mat_theta,
                              arma::vec theta_z_old,
                              double sigma2_zeta_z_old,
                              arma::vec mu_z_old){

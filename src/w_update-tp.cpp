@@ -12,9 +12,11 @@ arma::vec w_update_tp(arma::vec y,
                       arma::vec mu_w){
 
 arma::vec w = mu_w +
-              sqrt(sigma2_epsilon_old)*arma::randn(1,
-                                                   n_star);  
-w(y > 0) = log(y(y > 0)/(1.00 - y(y > 0)));
+              sqrt(sigma2_epsilon_old)*trans(arma::randn(1,
+                                                         n_star)); 
+  
+arma::uvec ids = find(y > 0.00);
+w.elem(ids) = log(y.elem(ids)/(1.00 - y.elem(ids)));
 
 return w;
 

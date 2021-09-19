@@ -13,13 +13,16 @@ double neg_two_loglike_update_tp(arma::vec y,
   
 arma::vec probs_z = 1.00/(1.00 + exp(-mu_z));
   
-arma::vec y_temp = log(y(y > 0.00)/(1.00 - y(y > 0.00)));
+arma::uvec ids1 = find(y > 0.00);
+arma::vec y_temp = log(y.elem(ids1)/(1.00 - y.elem(ids1)));
+arma::uvec ids2 = find(y == 0.00);
 
-double neg_two_loglike = -2.00*sum(log(probs_z(y > 0.00)) -
-                                   0.50*y_temp.size()*log(2*datum::pi*sigma2_epsilon) -
-                                   (0.50/sigma2_epsilon)*dot((y_temp - mu_w(y > 0.00)), (y_temp - mu_w(y > 0.00)))) -
-              2*sum(log(1.00 - probs_z(y == 0)));
-           
+double loglike = sum(log(probs_z.elem(ids1))) +
+                 -0.50*y_temp.size()*log(2*datum::pi*sigma2_epsilon) - (0.50/sigma2_epsilon)*dot((y_temp - mu_w.elem(ids1)), (y_temp - mu_w.elem(ids1))) +
+                 sum(log(1.00 - probs_z.elem(ids2)));
+
+double neg_two_loglike = -2.00*loglike;
+
 return neg_two_loglike;
 
 }

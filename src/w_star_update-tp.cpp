@@ -16,7 +16,13 @@ Rcpp::List w_star_update_tp(arma::vec y,
 arma::vec w_star = rcpp_pgdraw(1.00,
                                mu_z);
 
-arma::vec lambda = ((y > 0.00) - 0.50)/w_star;
+arma::uvec ids = find(y > 0.00);
+arma::vec temp(n_star); temp.fill(0.00);
+temp.elem(ids).fill(1.00);
+temp = temp - 
+       0.50;
+  
+arma::vec lambda = temp/w_star;
 
 arma::mat w_star_mat_delta(n_star, (p_x + 2*p_d));
 for(int j = 0; j < (p_x + 2*p_d); ++j){
