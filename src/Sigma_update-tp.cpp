@@ -44,7 +44,8 @@ double df = m +
             nu_Sigma_inv;
 
 //Bartlett Decomposition
-arma::mat L = arma::chol(scale);
+arma::mat L = arma::chol(scale, 
+                         "lower");
 arma::mat A(4,4); A.fill(0.00);
 A(1,0) = R::rnorm(0.00,
                   sqrt(1.00));
