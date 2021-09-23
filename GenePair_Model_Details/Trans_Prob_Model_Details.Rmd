@@ -1,0 +1,67 @@
+---
+output:
+  pdf_document: default
+  word_document: default
+  html_document: default
+---
+# GenePair: Statistical Methods for Modeling Spatially-Referenced Paired Genetic Relatedness Data
+
+## Transmission Probabilities Model
+$$Y_{ij} \stackrel{\text{ind}}{\sim} f_{y_{ij}}\left(y\right) = \left(1 - \pi_{ij}\right)^{1\left(y = 0\right)} \left[\pi_{ij}f_{w_{ij}}\left\{\ln\left(\frac{y}{1-y}\right)\right\}\right]^{1\left(y > 0\right)},\ y \in \left[0,1\right),\ i=1,...,n,\ j=1,...,n,\ i \neq j$$
+$$\ln\left(\frac{\pi_{ij}}{1 - \pi_{ij}}\right) = \textbf{x}_{ij}^{\text{T}}\boldsymbol{\beta}_z + \textbf{d}_{j}^{\text{T}}\boldsymbol{\gamma}_z^{\left(g\right)} + \textbf{d}_{i}^{\text{T}}\boldsymbol{\gamma}_z^{\left(r\right)} + \theta_{zj}^{\left(g\right)} + \theta_{zi}^{\left(r\right)}$$
+$$f_{w_{ij}}\left(w\right) \equiv \text{N}\left(\textbf{x}_{ij}^{\text{T}}\boldsymbol{\beta}_w + \textbf{d}_{j}^{\text{T}}\boldsymbol{\gamma}_w^{\left(g\right)} + \textbf{d}_{i}^{\text{T}}\boldsymbol{\gamma}_w^{\left(r\right)} + \theta_{wj}^{\left(g\right)} + \theta_{wi}^{\left(r\right)},\ \sigma^2_{\epsilon}\right)$$
+
+\begin{align*}\begin{split} &\boldsymbol{\eta}|\Omega, \phi \sim \text{MVN}\left\{\boldsymbol{0}_{4m}, \Sigma\left(\phi\right) \otimes \Omega \right\} \text{ where}\\ &\boldsymbol{\eta}^{\text{T}} = \left\{\boldsymbol{\eta}\left(\textbf{s}^*_1\right)^{\text{T}}, \hdots, \boldsymbol{\eta}\left(\textbf{s}^*_m\right)^{\text{T}}\right\} \text{ and}\\ &\boldsymbol{\eta}\left(\textbf{s}^*_i\right)^{\text{T}} = \left\{\eta_z^{(g)}\left(\textbf{s}^*_i\right), \eta_z^{(r)}\left(\textbf{s}^*_i\right), \eta_w^{(g)}\left(\textbf{s}^*_i\right), \eta_w^{(r)}\left(\textbf{s}^*_i\right)\right\}.\end{split} \end{align*}
+
+* $\epsilon_{ij}|\sigma^2_{\epsilon} \stackrel{\text{iid}}{\sim} \text{N}\left(0, \sigma^2_{\epsilon}\right);$
+
+* $d\left(\textbf{s}_i\right)$: Maps the spatial location of an individual to an entry within a smaller set of $m < n$ unique locations such that $d\left(\textbf{s}_i\right) \in \left\{\textbf{s}_1^*, \hdots, \textbf{s}_m^*\right\}$;
+
+* $\zeta_i|\sigma^2_{\zeta} \stackrel{\text{iid}}{\sim}\text{N}\left(0, \sigma^2_{\zeta}\right)$;
+
+* $m$: Number of unique spatial locations ($m \leq n$);
+
+* $n$: Number of individuals;
+
+
+## Prior Information
+$\beta_j, \gamma_k \stackrel{\text{iid}}{\sim}\text{N}\left(0, \sigma^2_{r}\right),\ j=1,...,p_x,\ k = 1,...,p_d;$
+
+* $p_x$: Length of $\textbf{x}_i$ vector (same for all $i$) which includes an intercept term;
+
+* $p_d$: Length of $\textbf{d}_j$ vector (same for all $j$) which \textbf{does not} include an intercept term;
+
+* Default setting: $\sigma^2_{r} = 10,000.$
+
+$\sigma^2_{\epsilon} \sim \text{Inverse Gamma}\left(a_{\sigma^2_{\epsilon}}, b_{\sigma^2_{\epsilon}}\right);$
+
+* Default setting: $a_{\sigma^2_{\epsilon}} = 0.01$, $b_{\sigma^2_{\epsilon}} = 0.01.$
+
+$\sigma^2_{\zeta} \sim \text{Inverse Gamma}\left(a_{\sigma^2_{\zeta}}, b_{\sigma^2_{\zeta}}\right);$
+
+* Default setting: $a_{\sigma^2_{\zeta}} = 0.01$, $b_{\sigma^2_{\zeta}} = 0.01.$
+
+$\tau^2 \sim \text{Inverse Gamma}\left(a_{\tau^2}, b_{\tau^2}\right);$
+
+* Default setting: $a_{\tau^2} = 0.01$, $b_{\tau^2} = 0.01.$
+
+$\phi \sim \text{Gamma}\left(a_{\phi}, b_{\phi}\right);$
+
+* Default setting: $a_{\phi} = 1.00$, $b_{\phi} = 1.00.$
+
+## Default Initial Values
+* $\beta_j, \gamma_k = 0$ for all $j,k$;
+
+* $\theta_i = 0$ for all $i$;
+
+* $\eta_i = 0$ for all $i$;
+
+* $\sigma^2_{\epsilon} = \text{variance}\left(\boldsymbol{Y}\right)$;
+
+* $\sigma^2_{\zeta} = 1.00$;
+
+* $\tau^2 = 1.00$;
+
+* $\phi = 1.00$.
+
+

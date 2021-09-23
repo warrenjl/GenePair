@@ -73,8 +73,8 @@ counter<-1
 for(j in 1:(n - 1)){
    for(k in (j + 1):n){
       
-      x_ind[counter, 1]<-(x1[j] + x1[k])
-      x_ind[counter, 2]<-(x2[j] + x2[k])
+      x_ind[counter, 1]<-(x1[k] + x1[j])
+      x_ind[counter, 2]<-(x2[k] + x2[j])
       counter<-counter +
                1
       
@@ -168,4 +168,8 @@ round(gamma_true, 2)
 #Compare \sigma2_epsilon
 round(mean(results$sigma2_epsilon[10001:20000]), 2)
 sigma2_epsilon_true
+
+#Compare \tau2
+round(mean(results$tau2[10001:20000]), 2)
+tau2_true
 ```
