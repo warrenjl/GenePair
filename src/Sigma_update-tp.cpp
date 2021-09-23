@@ -65,7 +65,7 @@ A(1,1) = sqrt(R::rchisq(df - 1.00));
 A(2,2) = sqrt(R::rchisq(df - 2.00));
 A(3,3) = sqrt(R::rchisq(df - 3.00));
 
-arma::mat Sigma_inv = L*A*trans(A)*trans(L);
+arma::mat Sigma_inv = (L*A)*trans(L*A);
 arma::mat Sigma = inv_sympd(Sigma_inv);
 
 return Rcpp::List::create(Rcpp::Named("Sigma") = Sigma,

@@ -9,13 +9,13 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 # GenePair: Statistical Methods for Modeling Spatially-Referenced Paired Genetic Relatedness Data
 
-## Patristic_Example
+## Trans_Prob_Example
 
 [1] Simulate data from the proposed model:
 
 * Setting the reproducibility seed and initializing packages for data simulation: 
 ```{r}
-set.seed(8722)
+set.seed(2412)
 
 library(GenePair)  
 library(mnormt)  #Multivariate normal distribution
@@ -25,12 +25,14 @@ library(mnormt)  #Multivariate normal distribution
 ```{r}
 n<-100  #Number of individuals
 n_star<-0  #Number of paired responses
-for(j in 1:(n - 1)){
-   for(k in (j + 1):n){
+for(j in 1:n){
+   for(k in 1:n){
       n_star<-n_star + 
               1
       }
    }
+n_star<-n_star - 
+        n
 
 #Unique locations (one for each individual)
 locs<-matrix(runif((2*n), 
@@ -48,53 +50,67 @@ spatial_dists<-as.matrix(dist(locs,
 #x_pair
 x_pair<-matrix(1, 
                nrow = n_star, 
-               ncol = 2)  
-x1<-rnorm(n = n)
-x2<-rnorm(n = n)
+               ncol = 2) 
+x<-rnorm(n = n)
 counter<-1
-for(j in 1:(n - 1)){
-   for(k in (j + 1):n){
-      
-      x_pair[counter, 2]<-abs(x1[j] - x2[k])
-      counter<-counter +
-               1
-      
+for(j in 1:n){
+   for(k in 1:n){
+      if(j != k){
+        
+        x_pair[counter, 2]<-abs(x[j] - x[k])
+        counter<-counter +
+                 1
+        
+        }
       }
    }
 x_pair[,2]<-scale(x_pair[,2])
 
-#x_ind
+#x_ind_g, x_ind_r
 x1<-rnorm(n = n)
 x2<-rnorm(n = n)
-x_ind<-matrix(0.00, 
-              nrow = n_star, 
-              ncol = 2)  
+x_ind_g<-matrix(1, 
+                nrow = n_star, 
+                ncol = 2) 
+x_ind_r<-matrix(1, 
+                nrow = n_star, 
+                ncol = 2)
 counter<-1
-for(j in 1:(n - 1)){
-   for(k in (j + 1):n){
-      
-      x_ind[counter, 1]<-(x1[j] + x1[k])
-      x_ind[counter, 2]<-(x2[j] + x2[k])
-      counter<-counter +
-               1
-      
+for(j in 1:n){
+   for(k in 1:n){
+      if(j != k){
+ 
+        x_ind_g[counter, 1]<-x1[j]
+        x_ind_g[counter, 2]<-x2[j]
+        x_ind_r[counter, 1]<-x1[k]
+        x_ind_r[counter, 2]<-x2[k]
+        counter<-counter +
+                 1
+        
+        }
       }
    }
-x_ind<-scale(x_ind)
+x_ind_g<-scale(x_ind_g)
+x_ind_r<-scale(x_ind_r)
 
-#z
-z<-matrix(0, 
-          nrow = n_star, 
-          ncol = n)  
+#z_g, z_r
+z_g<-matrix(0, 
+            nrow = n_star, 
+            ncol = n)
+z_r<-matrix(0, 
+            nrow = n_star, 
+            ncol = n)
 counter<-1
-for(j in 1:(n - 1)){
-   for(k in (j + 1):n){
-      
-      z[counter, j]<-1
-      z[counter, k]<-1
-      counter<-counter +
-               1
-      
+for(j in 1:n){
+   for(k in 1:n){
+      if(j != k){
+         
+        z_g[counter, j]<-1
+        z_r[counter, k]<-1
+        counter<-counter +
+                 1
+        
+        }
       }
    }
 ```
@@ -104,7 +120,8 @@ for(j in 1:(n - 1)){
 beta_true<- c(1.00, 
               -0.30)
 gamma_true<-c(2.10,
-              -1.75)
+              -1.75,
+              0.00)
 
 tau2_true<-2.00
 sigma2_zeta_true<-0.01
