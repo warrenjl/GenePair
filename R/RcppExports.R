@@ -5,16 +5,24 @@ Patristic <- function(mcmc_samples, log_patristic_distances, x_pair, x_ind, z, s
     .Call(`_GenePair_Patristic`, mcmc_samples, log_patristic_distances, x_pair, x_ind, z, spatial_dists, v, metrop_var_phi_trans, a_sigma2_epsilon_prior, b_sigma2_epsilon_prior, sigma2_regress_prior, a_sigma2_zeta_prior, b_sigma2_zeta_prior, a_tau2_prior, b_tau2_prior, a_phi_prior, b_phi_prior, sigma2_epsilon_init, beta_init, gamma_init, theta_init, sigma2_zeta_init, eta_init, tau2_init, phi_init)
 }
 
+SNP <- function(mcmc_samples, snp_distances, x_pair, x_ind, z, spatial_dists, v, metrop_var_phi_trans, a_r_prior = NULL, b_r_prior = NULL, sigma2_regress_prior = NULL, a_sigma2_zeta_prior = NULL, b_sigma2_zeta_prior = NULL, a_tau2_prior = NULL, b_tau2_prior = NULL, a_phi_prior = NULL, b_phi_prior = NULL, r_init = NULL, beta_init = NULL, gamma_init = NULL, theta_init = NULL, sigma2_zeta_init = NULL, eta_init = NULL, tau2_init = NULL, phi_init = NULL) {
+    .Call(`_GenePair_SNP`, mcmc_samples, snp_distances, x_pair, x_ind, z, spatial_dists, v, metrop_var_phi_trans, a_r_prior, b_r_prior, sigma2_regress_prior, a_sigma2_zeta_prior, b_sigma2_zeta_prior, a_tau2_prior, b_tau2_prior, a_phi_prior, b_phi_prior, r_init, beta_init, gamma_init, theta_init, sigma2_zeta_init, eta_init, tau2_init, phi_init)
+}
+
 Sigma_update_tp <- function(m, Omega_Sigma_inv, nu_Sigma_inv, eta_z_g, eta_z_r, eta_w_g, eta_w_r, spatial_corr_inv) {
     .Call(`_GenePair_Sigma_update_tp`, m, Omega_Sigma_inv, nu_Sigma_inv, eta_z_g, eta_z_r, eta_w_g, eta_w_r, spatial_corr_inv)
 }
 
-Trans_Prob <- function(mcmc_samples, trans_probs, x_pair, x_ind_g, x_ind_r, z_g, z_r, spatial_dists, v, metrop_var_phi_trans, sigma2_regress_prior = NULL, a_sigma2_zeta_z_g_prior = NULL, b_sigma2_zeta_z_g_prior = NULL, a_sigma2_zeta_z_r_prior = NULL, b_sigma2_zeta_z_r_prior = NULL, a_sigma2_epsilon_prior = NULL, b_sigma2_epsilon_prior = NULL, a_sigma2_zeta_w_g_prior = NULL, b_sigma2_zeta_w_g_prior = NULL, a_sigma2_zeta_w_r_prior = NULL, b_sigma2_zeta_w_r_prior = NULL, Omega_Sigma_inv_prior = NULL, nu_Sigma_inv_prior = NULL, a_phi_prior = NULL, b_phi_prior = NULL, beta_z_init = NULL, gamma_z_g_init = NULL, gamma_z_r_init = NULL, theta_z_g_init = NULL, theta_z_r_init = NULL, sigma2_zeta_z_g_init = NULL, sigma2_zeta_z_r_init = NULL, eta_z_g_init = NULL, eta_z_r_init = NULL, sigma2_epsilon_init = NULL, beta_w_init = NULL, gamma_w_g_init = NULL, gamma_w_r_init = NULL, theta_w_g_init = NULL, theta_w_r_init = NULL, sigma2_zeta_w_g_init = NULL, sigma2_zeta_w_r_init = NULL, eta_w_g_init = NULL, eta_w_r_init = NULL, Sigma_init = NULL, phi_init = NULL) {
-    .Call(`_GenePair_Trans_Prob`, mcmc_samples, trans_probs, x_pair, x_ind_g, x_ind_r, z_g, z_r, spatial_dists, v, metrop_var_phi_trans, sigma2_regress_prior, a_sigma2_zeta_z_g_prior, b_sigma2_zeta_z_g_prior, a_sigma2_zeta_z_r_prior, b_sigma2_zeta_z_r_prior, a_sigma2_epsilon_prior, b_sigma2_epsilon_prior, a_sigma2_zeta_w_g_prior, b_sigma2_zeta_w_g_prior, a_sigma2_zeta_w_r_prior, b_sigma2_zeta_w_r_prior, Omega_Sigma_inv_prior, nu_Sigma_inv_prior, a_phi_prior, b_phi_prior, beta_z_init, gamma_z_g_init, gamma_z_r_init, theta_z_g_init, theta_z_r_init, sigma2_zeta_z_g_init, sigma2_zeta_z_r_init, eta_z_g_init, eta_z_r_init, sigma2_epsilon_init, beta_w_init, gamma_w_g_init, gamma_w_r_init, theta_w_g_init, theta_w_r_init, sigma2_zeta_w_g_init, sigma2_zeta_w_r_init, eta_w_g_init, eta_w_r_init, Sigma_init, phi_init)
+Trans_Prob <- function(mcmc_samples, transmission_probabilities, x_pair, x_ind_g, x_ind_r, z_g, z_r, spatial_dists, v, metrop_var_phi_trans, sigma2_regress_prior = NULL, a_sigma2_zeta_z_g_prior = NULL, b_sigma2_zeta_z_g_prior = NULL, a_sigma2_zeta_z_r_prior = NULL, b_sigma2_zeta_z_r_prior = NULL, a_sigma2_epsilon_prior = NULL, b_sigma2_epsilon_prior = NULL, a_sigma2_zeta_w_g_prior = NULL, b_sigma2_zeta_w_g_prior = NULL, a_sigma2_zeta_w_r_prior = NULL, b_sigma2_zeta_w_r_prior = NULL, Omega_Sigma_inv_prior = NULL, nu_Sigma_inv_prior = NULL, a_phi_prior = NULL, b_phi_prior = NULL, beta_z_init = NULL, gamma_z_g_init = NULL, gamma_z_r_init = NULL, theta_z_g_init = NULL, theta_z_r_init = NULL, sigma2_zeta_z_g_init = NULL, sigma2_zeta_z_r_init = NULL, eta_z_g_init = NULL, eta_z_r_init = NULL, sigma2_epsilon_init = NULL, beta_w_init = NULL, gamma_w_g_init = NULL, gamma_w_r_init = NULL, theta_w_g_init = NULL, theta_w_r_init = NULL, sigma2_zeta_w_g_init = NULL, sigma2_zeta_w_r_init = NULL, eta_w_g_init = NULL, eta_w_r_init = NULL, Sigma_init = NULL, phi_init = NULL) {
+    .Call(`_GenePair_Trans_Prob`, mcmc_samples, transmission_probabilities, x_pair, x_ind_g, x_ind_r, z_g, z_r, spatial_dists, v, metrop_var_phi_trans, sigma2_regress_prior, a_sigma2_zeta_z_g_prior, b_sigma2_zeta_z_g_prior, a_sigma2_zeta_z_r_prior, b_sigma2_zeta_z_r_prior, a_sigma2_epsilon_prior, b_sigma2_epsilon_prior, a_sigma2_zeta_w_g_prior, b_sigma2_zeta_w_g_prior, a_sigma2_zeta_w_r_prior, b_sigma2_zeta_w_r_prior, Omega_Sigma_inv_prior, nu_Sigma_inv_prior, a_phi_prior, b_phi_prior, beta_z_init, gamma_z_g_init, gamma_z_r_init, theta_z_g_init, theta_z_r_init, sigma2_zeta_z_g_init, sigma2_zeta_z_r_init, eta_z_g_init, eta_z_r_init, sigma2_epsilon_init, beta_w_init, gamma_w_g_init, gamma_w_r_init, theta_w_g_init, theta_w_r_init, sigma2_zeta_w_g_init, sigma2_zeta_w_r_init, eta_w_g_init, eta_w_r_init, Sigma_init, phi_init)
 }
 
 delta_update_pd <- function(y, x_trans, xtx, z, p_x, p_d, x_prior, sigma2_epsilon, theta_old) {
     .Call(`_GenePair_delta_update_pd`, y, x_trans, xtx, z, p_x, p_d, x_prior, sigma2_epsilon, theta_old)
+}
+
+delta_update_snp <- function(x, x_trans, z, p_x, p_d, x_prior, omega, lambda, omega_mat_delta, theta_old) {
+    .Call(`_GenePair_delta_update_snp`, x, x_trans, z, p_x, p_d, x_prior, omega, lambda, omega_mat_delta, theta_old)
 }
 
 delta_w_update_tp <- function(x, x_trans, xtx, p_x, p_d, x_prior, w, sigma2_epsilon, beta_w_old, gamma_w_g_old, gamma_w_r_old, mu_w_old) {
@@ -37,8 +45,16 @@ neg_two_loglike_update_pd <- function(y, x_pair, x_ind, z, n_star, sigma2_epsilo
     .Call(`_GenePair_neg_two_loglike_update_pd`, y, x_pair, x_ind, z, n_star, sigma2_epsilon, beta, gamma, theta)
 }
 
+neg_two_loglike_update_snp <- function(y, x_pair, x_ind, z, n_star, r, beta, gamma, theta) {
+    .Call(`_GenePair_neg_two_loglike_update_snp`, y, x_pair, x_ind, z, n_star, r, beta, gamma, theta)
+}
+
 neg_two_loglike_update_tp <- function(y, sigma2_epsilon, mu_z, mu_w) {
     .Call(`_GenePair_neg_two_loglike_update_tp`, y, sigma2_epsilon, mu_z, mu_w)
+}
+
+omega_update_snp <- function(y, x_pair, x_ind, z, n_star, n, p_x, p_d, r, beta_old, gamma_old, theta_old) {
+    .Call(`_GenePair_omega_update_snp`, y, x_pair, x_ind, z, n_star, n, p_x, p_d, r, beta_old, gamma_old, theta_old)
 }
 
 phi_update_pd <- function(spatial_dists, m, a_phi, b_phi, eta, tau2, phi_old, spatial_corr_info, metrop_var_phi_trans, acctot_phi_trans) {
@@ -47,6 +63,10 @@ phi_update_pd <- function(spatial_dists, m, a_phi, b_phi, eta, tau2, phi_old, sp
 
 phi_update_tp <- function(spatial_dists, m, a_phi, b_phi, eta_full, Sigma_inv, phi_old, spatial_corr_info, metrop_var_phi_trans, acctot_phi_trans) {
     .Call(`_GenePair_phi_update_tp`, spatial_dists, m, a_phi, b_phi, eta_full, Sigma_inv, phi_old, spatial_corr_info, metrop_var_phi_trans, acctot_phi_trans)
+}
+
+r_update_snp <- function(y, x_pair, x_ind, z, n_star, a_r, b_r, beta_old, gamma_old, theta_old) {
+    .Call(`_GenePair_r_update_snp`, y, x_pair, x_ind, z, n_star, a_r, b_r, beta_old, gamma_old, theta_old)
 }
 
 rcpp_pgdraw <- function(b, c) {
@@ -75,6 +95,10 @@ tau2_update_pd <- function(m, a_tau2, b_tau2, eta, corr_inv) {
 
 theta_update_pd <- function(y, x_pair, x_ind, z_trans, ztz, v, n, sigma2_epsilon, beta, gamma, sigma2_zeta_old, eta_old) {
     .Call(`_GenePair_theta_update_pd`, y, x_pair, x_ind, z_trans, ztz, v, n, sigma2_epsilon, beta, gamma, sigma2_zeta_old, eta_old)
+}
+
+theta_update_snp <- function(x_pair, x_ind, z, z_trans, v, n, omega, lambda, omega_mat_theta, beta, gamma, sigma2_zeta_old, eta_old) {
+    .Call(`_GenePair_theta_update_snp`, x_pair, x_ind, z, z_trans, v, n, omega, lambda, omega_mat_theta, beta, gamma, sigma2_zeta_old, eta_old)
 }
 
 theta_w_update_tp <- function(z, z_trans, zgtzg, v, n, w, sigma2_epsilon, theta_w_old, sigma2_zeta_w_old, eta_w_old, mu_w_old) {

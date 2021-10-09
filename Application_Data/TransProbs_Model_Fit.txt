@@ -5,7 +5,7 @@ library(GenePair)
 set.seed(58454)
 
 results<-Trans_Prob(mcmc_samples = 250000,
-                    trans_probs = y,
+                    transmission_probabilities = y,
                     x_pair = x_pair,
                     x_ind_g = x_ind_g,
                     x_ind_r = x_ind_r,

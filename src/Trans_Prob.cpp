@@ -7,7 +7,7 @@ using namespace Rcpp;
 // [[Rcpp::export]]
 
 Rcpp::List Trans_Prob(int mcmc_samples,
-                      arma::vec trans_probs,
+                      arma::vec transmission_probabilities,
                       arma::mat x_pair,
                       arma::mat x_ind_g,
                       arma::mat x_ind_r,
@@ -54,7 +54,7 @@ Rcpp::List Trans_Prob(int mcmc_samples,
                       Rcpp::Nullable<double> phi_init = R_NilValue){
 
 //Defining Parameters and Quantities of Interest
-arma::vec y = trans_probs;
+arma::vec y = transmission_probabilities;
 int p_x = x_pair.n_cols;
 int p_d = x_ind_g.n_cols;  //x_g and x_r have the Same # of Columns
 int n = z_g.n_cols;  //z_g and z_r have the Same # of Columns

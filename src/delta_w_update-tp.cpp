@@ -34,8 +34,15 @@ arma::vec delta_w = mean_delta_w +
                     trans(ind_norms*arma::chol(cov_delta_w));
 
 arma::vec beta_w = delta_w.subvec(0, (p_x - 1));
-arma::vec gamma_w_g = delta_w.subvec(p_x, (p_x + p_d - 1));
-arma::vec gamma_w_r = delta_w.subvec((p_x + p_d), (p_x + 2*p_d - 1));
+arma::vec gamma_w_g(p_d); gamma_w_g.fill(0.00);
+arma::vec gamma_w_r(p_d); gamma_w_r.fill(0.00);
+if(p_d > 0){
+  
+  gamma_w_g = delta_w.subvec(p_x, (p_x + p_d - 1));
+  gamma_w_r = delta_w.subvec((p_x + p_d), (p_x + 2*p_d - 1));
+  
+  }
+
 arma::vec mu_w = mu_w_old -
                  x*delta_w_old +
                  x*delta_w;
