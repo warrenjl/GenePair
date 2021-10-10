@@ -67,7 +67,7 @@ if(a_r_prior.isNotNull()){
   a_r = Rcpp::as<int>(a_r_prior);
   }
 
-int b_r = 0.01;
+int b_r = 100;
 if(b_r_prior.isNotNull()){
   b_r = Rcpp::as<int>(b_r_prior);
   }
@@ -109,7 +109,7 @@ if(b_phi_prior.isNotNull()){
   }
 
 //Initial Values
-r(0) = 1.00;
+r(0) = 1;
 if(r_init.isNotNull()){
   r(0) = Rcpp::as<int>(r_init);
   }
@@ -172,7 +172,7 @@ arma::mat omega_mat_delta(n_star, (p_x + p_d)); omega_mat_delta.fill(0.00);
 arma::mat omega_mat_theta(n_star, n); omega_mat_theta.fill(0.00);
 for(int j = 1; j < mcmc_samples; ++j){
   
-   //r, omega Update
+   //r, omega Updates
    r(j) = r_update_snp(y,
                        x_pair,
                        x_ind,
