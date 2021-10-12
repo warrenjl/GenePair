@@ -67,7 +67,7 @@ if(a_r_prior.isNotNull()){
   a_r = Rcpp::as<int>(a_r_prior);
   }
 
-int b_r = 100;
+int b_r = 50;
 if(b_r_prior.isNotNull()){
   b_r = Rcpp::as<int>(b_r_prior);
   }
@@ -109,7 +109,7 @@ if(b_phi_prior.isNotNull()){
   }
 
 //Initial Values
-r(0) = 1;
+r(0) = a_r;
 if(r_init.isNotNull()){
   r(0) = Rcpp::as<int>(r_init);
   }

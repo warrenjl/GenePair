@@ -28,6 +28,7 @@
 using namespace arma;
 using namespace Rcpp;
 
+
 // Mathematical constants computed using Wolfram Alpha
 #define MATH_PI        3.141592653589793238462643383279502884197169399375105820974
 #define MATH_PI_2      1.570796326794896619231321691639751442098584699687552910487
@@ -49,24 +50,36 @@ double randinvg(double);
 double aterm(int, double, double);
 
 // [[Rcpp::export]]
-arma::vec rcpp_pgdraw(double b, arma::vec c)
+arma::vec rcpp_pgdraw(arma::vec b, arma::vec c)
 {
-  int n = c.size();
-  arma::vec y(n); y.fill(0);
-  
-  // Setup
-  int i;
-  
-  // Sample
-  for (i = 0; i < n; i++)
-  {
-    
-    // Sample
-    y(i) += samplepg(c(i));
-    
-  }
-  
-  return y;
+	int m = b.size();
+	int n = c.size();
+	NumericVector y(n);
+
+	// Setup
+	int i, j, bi = 1;
+	if (m == 1)
+	{
+		bi = b[0];
+	}
+
+	// Sample
+	for (i = 0; i < n; i++)
+	{
+		if (m > 1)
+		{
+			bi = b[i];
+		}
+
+		// Sample
+		y[i] = 0;
+		for (j = 0; j < (int)bi; j++)
+		{
+			y[i] += samplepg(c[i]);
+		}
+	}
+
+	return y;
 }
 
 
@@ -76,7 +89,7 @@ arma::vec rcpp_pgdraw(double b, arma::vec c)
 double samplepg(double z)
 {
   //  PG(b, z) = 0.25 * J*(b, z/2)
-  z = fabs(z) * 0.5;
+  z = (double)std::fabs((double)z) * 0.5;
   
   // Point on the intersection IL = [0, 4/ log 3] and IR = [(log 3)/pi^2, \infty)
   double t = MATH_2_PI;
@@ -84,18 +97,18 @@ double samplepg(double z)
   // Compute p, q and the ratio q / (q + p)
   // (derived from scratch; derivation is not in the original paper)
   double K = z*z/2.0 + MATH_PI2/8.0;
-  double logA = log(4) - MATH_LOG_PI - z;
-  double logK = log(K);
+  double logA = (double)std::log(4.0) - MATH_LOG_PI - z;
+  double logK = (double)std::log(K);
   double Kt = K * t;
-  double w = sqrt(MATH_PI_2);
-  
+  double w = (double)std::sqrt(MATH_PI_2);
+
   double logf1 = logA + R::pnorm(w*(t*z - 1),0.0,1.0,1,1) + logK + Kt;
   double logf2 = logA + 2*z + R::pnorm(-w*(t*z+1),0.0,1.0,1,1) + logK + Kt;
-  double p_over_q = exp(logf1) + exp(logf2);
+  double p_over_q = (double)std::exp(logf1) + (double)std::exp(logf2);
   double ratio = 1.0 / (1.0 + p_over_q); 
-  
+
   double u, X;
-  
+
   // Main sampling loop; page 130 of the Windle PhD thesis
   while(1) 
   {
@@ -109,14 +122,14 @@ double samplepg(double z)
       // truncated Inverse Gaussian
       X = tinvgauss(z, t);
     }
-    
+
     // Step 2: Iteratively calculate Sn(X|z), starting at S1(X|z), until U ? Sn(X|z) for an odd n or U > Sn(X|z) for an even n
     int i = 1;
     double Sn = aterm(0, X, t);
     double U = R::runif(0.0,1.0) * Sn;
     int asgn = -1;
     bool even = false;
-    
+
     while(1) 
     {
       Sn = Sn + asgn * aterm(i, X, t);
@@ -143,7 +156,7 @@ double samplepg(double z)
 // Generate exponential distribution random variates
 double exprnd(double mu)
 {
-  return -mu * log(1.0 - R::runif(0.0,1.0));
+	return -mu * (double)std::log(1.0 - (double)R::runif(0.0,1.0));
 }
 
 // Function a_n(x) defined in equations (12) and (13) of
@@ -157,12 +170,12 @@ double aterm(int n, double x, double t)
 {
   double f = 0;
   if(x <= t) {
-    f = MATH_LOG_PI + log(n + 0.5) + 1.5*(MATH_LOG_2_PI-log(x)) - 2*(n + 0.5)*(n + 0.5)/x;
+    f = MATH_LOG_PI + (double)std::log(n + 0.5) + 1.5*(MATH_LOG_2_PI- (double)std::log(x)) - 2*(n + 0.5)*(n + 0.5)/x;
   }
   else {
-    f = MATH_LOG_PI + log(n + 0.5) - x * MATH_PI2_2 * (n + 0.5)*(n + 0.5);
+    f = MATH_LOG_PI + (double)std::log(n + 0.5) - x * MATH_PI2_2 * (n + 0.5)*(n + 0.5);
   }    
-  return exp(f);
+  return (double)exp(f);
 }
 
 // Generate inverse gaussian random variates
@@ -171,7 +184,7 @@ double randinvg(double mu)
   // sampling
   double u = R::rnorm(0.0,1.0);
   double V = u*u;
-  double out = mu + 0.5*mu * ( mu*V - sqrt(4*mu*V + mu*mu * V*V) );
+  double out = mu + 0.5*mu * ( mu*V - (double)std::sqrt(4.0*mu*V + mu*mu * V*V) );
   
   if(R::runif(0.0,1.0) > mu /(mu+out)) {    
     out = mu*mu / out; 
@@ -191,7 +204,7 @@ double truncgamma()
   while(!done)
   {
     X = exprnd(1.0) * 2.0 + c;
-    gX = MATH_SQRT_PI_2 / sqrt(X);
+    gX = MATH_SQRT_PI_2 / (double)std::sqrt(X);
     
     if(R::runif(0.0,1.0) <= gX) {
       done = true;
@@ -213,10 +226,10 @@ double tinvgauss(double z, double t)
     // Sampler based on truncated gamma 
     // Algorithm 3 in the Windle (2013) PhD thesis, page 128
     while(1) {
-      u = R::runif(0.0, 1.0);
+	  u = R::runif(0.0, 1.0);
       X = 1.0 / truncgamma();
       
-      if(log(u) < (-z*z*0.5*X)) {
+	  if ((double)std::log(u) < (-z*z*0.5*X)) {
         break;
       }
     }

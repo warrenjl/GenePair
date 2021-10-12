@@ -23,15 +23,9 @@ arma::vec mu = x_pair*beta_old +
                x_ind*gamma_old +
                z*theta_old;
 
-arma::vec omega(n_star); omega.fill(0.00);
-arma::vec mu_input(1); mu_input.fill(0.00);
-for(int j = 0; j < n_star; ++j){
+arma::vec omega = rcpp_pgdraw((r + y), 
+                              mu);
    
-   mu_input.fill(mu(j));
-   omega(j) = rcpp_pgdraw((r + y(j)),
-                          mu_input)(0);
-   
-   }
 arma::vec lambda = 0.50*(y - r)/omega;
 
 arma::mat omega_mat_delta(n_star, (p_x + p_d));

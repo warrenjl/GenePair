@@ -13,7 +13,8 @@ Rcpp::List w_star_update_tp(arma::vec y,
                             int p_d,
                             arma::vec mu_z){
 
-arma::vec w_star = rcpp_pgdraw(1.00,
+arma::vec ones(n_star); ones.fill(1.00);
+arma::vec w_star = rcpp_pgdraw(ones,
                                mu_z);
 
 arma::uvec ids = find(y > 0.00);
