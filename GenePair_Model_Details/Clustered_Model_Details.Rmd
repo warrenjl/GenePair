@@ -1,0 +1,61 @@
+---
+output:
+  pdf_document: default
+  word_document: default
+  html_document: default
+---
+# GenePair: Statistical Methods for Modeling Spatially-Referenced Paired Genetic Relatedness Data
+
+## Clustered Indicators Model
+$$Y_{ij}|p_{ij} \stackrel{\text{ind}}{\sim}\text{Bernoulli}\left(p_{ij}\right),\ i=1, ..., n - 1,\ j=i + 1,..., n$$
+$$\text{logit}\left(p_{ij}\right) = \textbf{x}_{ij}^{\text{T}}\boldsymbol{\beta} + \left(\textbf{d}_{i} + \textbf{d}_{j}\right)^{\text{T}}\boldsymbol{\gamma} + \theta_i + \theta_j$$
+\begin{align*} \begin{split}
+    &\theta_i = \eta\left\{d\left(\textbf{s}_i\right)\right\} + \zeta_i,\ i=1,\hdots,n, \\
+    &\boldsymbol{\eta}^{\text{T}} = \left\{\eta\left(\textbf{s}_1^*\right), \hdots, \eta\left(\textbf{s}_m^*\right)\right\} | \phi, \tau^2 \sim \text{MVN}\left\{\boldsymbol{0}_m, \tau^2 \Sigma\left(\phi\right)\right\}, \text{ and}\\
+    &\Sigma\left(\phi\right)_{ij} = \text{Corr}\left\{\eta\left(\textbf{s}_i^*\right), \eta\left(\textbf{s}_j^*\right)\right\} = \exp\left\{-\phi \left\|\textbf{s}_i^* - \textbf{s}_j^* \right\|\right\}.
+\end{split} \end{align*}
+
+* $d\left(\textbf{s}_i\right)$: Maps the spatial location of an individual to an entry within a smaller set of $m < n$ unique locations such that $d\left(\textbf{s}_i\right) \in \left\{\textbf{s}_1^*, \hdots, \textbf{s}_m^*\right\}$;
+
+* $\zeta_i|\sigma^2_{\zeta} \stackrel{\text{iid}}{\sim}\text{N}\left(0, \sigma^2_{\zeta}\right)$;
+
+* $m$: Number of unique spatial locations ($m \leq n$);
+
+* $n$: Number of individuals.
+
+
+## Prior Information
+$\beta_j, \gamma_k \stackrel{\text{iid}}{\sim}\text{N}\left(0, \sigma^2_{r}\right),\ j=1,...,p_x,\ k = 1,...,p_d;$
+
+* $p_x$: Length of $\textbf{x}_i$ vector (same for all $i$) which includes an intercept term;
+
+* $p_d$: Length of $\textbf{d}_j$ vector (same for all $j$) which \textbf{does not} include an intercept term;
+
+* Default setting: $\sigma^2_{r} = 10,000.$
+
+$\sigma^2_{\zeta} \sim \text{Inverse Gamma}\left(a_{\sigma^2_{\zeta}}, b_{\sigma^2_{\zeta}}\right);$
+
+* Default setting: $a_{\sigma^2_{\zeta}} = 0.01$, $b_{\sigma^2_{\zeta}} = 0.01.$
+
+$\tau^2 \sim \text{Inverse Gamma}\left(a_{\tau^2}, b_{\tau^2}\right);$
+
+* Default setting: $a_{\tau^2} = 0.01$, $b_{\tau^2} = 0.01.$
+
+$\phi \sim \text{Gamma}\left(a_{\phi}, b_{\phi}\right);$
+
+* Default setting: $a_{\phi} = 1.00$, $b_{\phi} = 1.00.$
+
+## Default Initial Values
+* $\beta_j, \gamma_k = 0$ for all $j,k$;
+
+* $\theta_i = 0$ for all $i$;
+
+* $\eta_i = 0$ for all $i$;
+
+* $\sigma^2_{\zeta} = 1.00$;
+
+* $\tau^2 = 1.00$;
+
+* $\phi = 1.00$.
+
+

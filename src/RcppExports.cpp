@@ -11,6 +11,38 @@ Rcpp::Rostream<true>&  Rcpp::Rcout = Rcpp::Rcpp_cout_get();
 Rcpp::Rostream<false>& Rcpp::Rcerr = Rcpp::Rcpp_cerr_get();
 #endif
 
+// Clustered
+Rcpp::List Clustered(int mcmc_samples, arma::vec clustered_indicators, arma::mat x_pair, arma::mat x_ind, arma::mat z, arma::mat spatial_dists, arma::mat v, double metrop_var_phi_trans, Rcpp::Nullable<double> sigma2_regress_prior, Rcpp::Nullable<double> a_sigma2_zeta_prior, Rcpp::Nullable<double> b_sigma2_zeta_prior, Rcpp::Nullable<double> a_tau2_prior, Rcpp::Nullable<double> b_tau2_prior, Rcpp::Nullable<double> a_phi_prior, Rcpp::Nullable<double> b_phi_prior, Rcpp::Nullable<Rcpp::NumericVector> beta_init, Rcpp::Nullable<Rcpp::NumericVector> gamma_init, Rcpp::Nullable<Rcpp::NumericVector> theta_init, Rcpp::Nullable<double> sigma2_zeta_init, Rcpp::Nullable<Rcpp::NumericVector> eta_init, Rcpp::Nullable<double> tau2_init, Rcpp::Nullable<double> phi_init);
+RcppExport SEXP _GenePair_Clustered(SEXP mcmc_samplesSEXP, SEXP clustered_indicatorsSEXP, SEXP x_pairSEXP, SEXP x_indSEXP, SEXP zSEXP, SEXP spatial_distsSEXP, SEXP vSEXP, SEXP metrop_var_phi_transSEXP, SEXP sigma2_regress_priorSEXP, SEXP a_sigma2_zeta_priorSEXP, SEXP b_sigma2_zeta_priorSEXP, SEXP a_tau2_priorSEXP, SEXP b_tau2_priorSEXP, SEXP a_phi_priorSEXP, SEXP b_phi_priorSEXP, SEXP beta_initSEXP, SEXP gamma_initSEXP, SEXP theta_initSEXP, SEXP sigma2_zeta_initSEXP, SEXP eta_initSEXP, SEXP tau2_initSEXP, SEXP phi_initSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< int >::type mcmc_samples(mcmc_samplesSEXP);
+    Rcpp::traits::input_parameter< arma::vec >::type clustered_indicators(clustered_indicatorsSEXP);
+    Rcpp::traits::input_parameter< arma::mat >::type x_pair(x_pairSEXP);
+    Rcpp::traits::input_parameter< arma::mat >::type x_ind(x_indSEXP);
+    Rcpp::traits::input_parameter< arma::mat >::type z(zSEXP);
+    Rcpp::traits::input_parameter< arma::mat >::type spatial_dists(spatial_distsSEXP);
+    Rcpp::traits::input_parameter< arma::mat >::type v(vSEXP);
+    Rcpp::traits::input_parameter< double >::type metrop_var_phi_trans(metrop_var_phi_transSEXP);
+    Rcpp::traits::input_parameter< Rcpp::Nullable<double> >::type sigma2_regress_prior(sigma2_regress_priorSEXP);
+    Rcpp::traits::input_parameter< Rcpp::Nullable<double> >::type a_sigma2_zeta_prior(a_sigma2_zeta_priorSEXP);
+    Rcpp::traits::input_parameter< Rcpp::Nullable<double> >::type b_sigma2_zeta_prior(b_sigma2_zeta_priorSEXP);
+    Rcpp::traits::input_parameter< Rcpp::Nullable<double> >::type a_tau2_prior(a_tau2_priorSEXP);
+    Rcpp::traits::input_parameter< Rcpp::Nullable<double> >::type b_tau2_prior(b_tau2_priorSEXP);
+    Rcpp::traits::input_parameter< Rcpp::Nullable<double> >::type a_phi_prior(a_phi_priorSEXP);
+    Rcpp::traits::input_parameter< Rcpp::Nullable<double> >::type b_phi_prior(b_phi_priorSEXP);
+    Rcpp::traits::input_parameter< Rcpp::Nullable<Rcpp::NumericVector> >::type beta_init(beta_initSEXP);
+    Rcpp::traits::input_parameter< Rcpp::Nullable<Rcpp::NumericVector> >::type gamma_init(gamma_initSEXP);
+    Rcpp::traits::input_parameter< Rcpp::Nullable<Rcpp::NumericVector> >::type theta_init(theta_initSEXP);
+    Rcpp::traits::input_parameter< Rcpp::Nullable<double> >::type sigma2_zeta_init(sigma2_zeta_initSEXP);
+    Rcpp::traits::input_parameter< Rcpp::Nullable<Rcpp::NumericVector> >::type eta_init(eta_initSEXP);
+    Rcpp::traits::input_parameter< Rcpp::Nullable<double> >::type tau2_init(tau2_initSEXP);
+    Rcpp::traits::input_parameter< Rcpp::Nullable<double> >::type phi_init(phi_initSEXP);
+    rcpp_result_gen = Rcpp::wrap(Clustered(mcmc_samples, clustered_indicators, x_pair, x_ind, z, spatial_dists, v, metrop_var_phi_trans, sigma2_regress_prior, a_sigma2_zeta_prior, b_sigma2_zeta_prior, a_tau2_prior, b_tau2_prior, a_phi_prior, b_phi_prior, beta_init, gamma_init, theta_init, sigma2_zeta_init, eta_init, tau2_init, phi_init));
+    return rcpp_result_gen;
+END_RCPP
+}
 // Patristic
 Rcpp::List Patristic(int mcmc_samples, arma::vec log_patristic_distances, arma::mat x_pair, arma::mat x_ind, arma::mat z, arma::mat spatial_dists, arma::mat v, double metrop_var_phi_trans, Rcpp::Nullable<double> a_sigma2_epsilon_prior, Rcpp::Nullable<double> b_sigma2_epsilon_prior, Rcpp::Nullable<double> sigma2_regress_prior, Rcpp::Nullable<double> a_sigma2_zeta_prior, Rcpp::Nullable<double> b_sigma2_zeta_prior, Rcpp::Nullable<double> a_tau2_prior, Rcpp::Nullable<double> b_tau2_prior, Rcpp::Nullable<double> a_phi_prior, Rcpp::Nullable<double> b_phi_prior, Rcpp::Nullable<double> sigma2_epsilon_init, Rcpp::Nullable<Rcpp::NumericVector> beta_init, Rcpp::Nullable<Rcpp::NumericVector> gamma_init, Rcpp::Nullable<Rcpp::NumericVector> theta_init, Rcpp::Nullable<double> sigma2_zeta_init, Rcpp::Nullable<Rcpp::NumericVector> eta_init, Rcpp::Nullable<double> tau2_init, Rcpp::Nullable<double> phi_init);
 RcppExport SEXP _GenePair_Patristic(SEXP mcmc_samplesSEXP, SEXP log_patristic_distancesSEXP, SEXP x_pairSEXP, SEXP x_indSEXP, SEXP zSEXP, SEXP spatial_distsSEXP, SEXP vSEXP, SEXP metrop_var_phi_transSEXP, SEXP a_sigma2_epsilon_priorSEXP, SEXP b_sigma2_epsilon_priorSEXP, SEXP sigma2_regress_priorSEXP, SEXP a_sigma2_zeta_priorSEXP, SEXP b_sigma2_zeta_priorSEXP, SEXP a_tau2_priorSEXP, SEXP b_tau2_priorSEXP, SEXP a_phi_priorSEXP, SEXP b_phi_priorSEXP, SEXP sigma2_epsilon_initSEXP, SEXP beta_initSEXP, SEXP gamma_initSEXP, SEXP theta_initSEXP, SEXP sigma2_zeta_initSEXP, SEXP eta_initSEXP, SEXP tau2_initSEXP, SEXP phi_initSEXP) {
@@ -274,6 +306,23 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// neg_two_loglike_update_clust
+double neg_two_loglike_update_clust(arma::vec y, arma::mat x_pair, arma::mat x_ind, arma::mat z, arma::vec beta, arma::vec gamma, arma::vec theta);
+RcppExport SEXP _GenePair_neg_two_loglike_update_clust(SEXP ySEXP, SEXP x_pairSEXP, SEXP x_indSEXP, SEXP zSEXP, SEXP betaSEXP, SEXP gammaSEXP, SEXP thetaSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< arma::vec >::type y(ySEXP);
+    Rcpp::traits::input_parameter< arma::mat >::type x_pair(x_pairSEXP);
+    Rcpp::traits::input_parameter< arma::mat >::type x_ind(x_indSEXP);
+    Rcpp::traits::input_parameter< arma::mat >::type z(zSEXP);
+    Rcpp::traits::input_parameter< arma::vec >::type beta(betaSEXP);
+    Rcpp::traits::input_parameter< arma::vec >::type gamma(gammaSEXP);
+    Rcpp::traits::input_parameter< arma::vec >::type theta(thetaSEXP);
+    rcpp_result_gen = Rcpp::wrap(neg_two_loglike_update_clust(y, x_pair, x_ind, z, beta, gamma, theta));
+    return rcpp_result_gen;
+END_RCPP
+}
 // neg_two_loglike_update_pd
 double neg_two_loglike_update_pd(arma::vec y, arma::mat x_pair, arma::mat x_ind, arma::mat z, int n_star, double sigma2_epsilon, arma::vec beta, arma::vec gamma, arma::vec theta);
 RcppExport SEXP _GenePair_neg_two_loglike_update_pd(SEXP ySEXP, SEXP x_pairSEXP, SEXP x_indSEXP, SEXP zSEXP, SEXP n_starSEXP, SEXP sigma2_epsilonSEXP, SEXP betaSEXP, SEXP gammaSEXP, SEXP thetaSEXP) {
@@ -323,6 +372,27 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< arma::vec >::type mu_z(mu_zSEXP);
     Rcpp::traits::input_parameter< arma::vec >::type mu_w(mu_wSEXP);
     rcpp_result_gen = Rcpp::wrap(neg_two_loglike_update_tp(y, sigma2_epsilon, mu_z, mu_w));
+    return rcpp_result_gen;
+END_RCPP
+}
+// omega_update_clust
+Rcpp::List omega_update_clust(arma::vec y, arma::mat x_pair, arma::mat x_ind, arma::mat z, int n_star, int n, int p_x, int p_d, arma::vec beta_old, arma::vec gamma_old, arma::vec theta_old);
+RcppExport SEXP _GenePair_omega_update_clust(SEXP ySEXP, SEXP x_pairSEXP, SEXP x_indSEXP, SEXP zSEXP, SEXP n_starSEXP, SEXP nSEXP, SEXP p_xSEXP, SEXP p_dSEXP, SEXP beta_oldSEXP, SEXP gamma_oldSEXP, SEXP theta_oldSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< arma::vec >::type y(ySEXP);
+    Rcpp::traits::input_parameter< arma::mat >::type x_pair(x_pairSEXP);
+    Rcpp::traits::input_parameter< arma::mat >::type x_ind(x_indSEXP);
+    Rcpp::traits::input_parameter< arma::mat >::type z(zSEXP);
+    Rcpp::traits::input_parameter< int >::type n_star(n_starSEXP);
+    Rcpp::traits::input_parameter< int >::type n(nSEXP);
+    Rcpp::traits::input_parameter< int >::type p_x(p_xSEXP);
+    Rcpp::traits::input_parameter< int >::type p_d(p_dSEXP);
+    Rcpp::traits::input_parameter< arma::vec >::type beta_old(beta_oldSEXP);
+    Rcpp::traits::input_parameter< arma::vec >::type gamma_old(gamma_oldSEXP);
+    Rcpp::traits::input_parameter< arma::vec >::type theta_old(theta_oldSEXP);
+    rcpp_result_gen = Rcpp::wrap(omega_update_clust(y, x_pair, x_ind, z, n_star, n, p_x, p_d, beta_old, gamma_old, theta_old));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -616,6 +686,7 @@ END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
+    {"_GenePair_Clustered", (DL_FUNC) &_GenePair_Clustered, 22},
     {"_GenePair_Patristic", (DL_FUNC) &_GenePair_Patristic, 25},
     {"_GenePair_SNP", (DL_FUNC) &_GenePair_SNP, 25},
     {"_GenePair_Sigma_update_tp", (DL_FUNC) &_GenePair_Sigma_update_tp, 8},
@@ -626,9 +697,11 @@ static const R_CallMethodDef CallEntries[] = {
     {"_GenePair_delta_z_update_tp", (DL_FUNC) &_GenePair_delta_z_update_tp, 12},
     {"_GenePair_eta_update_pd", (DL_FUNC) &_GenePair_eta_update_pd, 7},
     {"_GenePair_eta_update_tp", (DL_FUNC) &_GenePair_eta_update_tp, 9},
+    {"_GenePair_neg_two_loglike_update_clust", (DL_FUNC) &_GenePair_neg_two_loglike_update_clust, 7},
     {"_GenePair_neg_two_loglike_update_pd", (DL_FUNC) &_GenePair_neg_two_loglike_update_pd, 9},
     {"_GenePair_neg_two_loglike_update_snp", (DL_FUNC) &_GenePair_neg_two_loglike_update_snp, 9},
     {"_GenePair_neg_two_loglike_update_tp", (DL_FUNC) &_GenePair_neg_two_loglike_update_tp, 4},
+    {"_GenePair_omega_update_clust", (DL_FUNC) &_GenePair_omega_update_clust, 11},
     {"_GenePair_omega_update_snp", (DL_FUNC) &_GenePair_omega_update_snp, 12},
     {"_GenePair_phi_update_pd", (DL_FUNC) &_GenePair_phi_update_pd, 10},
     {"_GenePair_phi_update_tp", (DL_FUNC) &_GenePair_phi_update_tp, 10},

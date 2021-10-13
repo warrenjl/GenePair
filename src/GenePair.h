@@ -348,4 +348,47 @@ Rcpp::List SNP(int mcmc_samples,
                Rcpp::Nullable<double> tau2_init,
                Rcpp::Nullable<double> phi_init);
 
+Rcpp::List omega_update_clust(arma::vec y,
+                              arma::mat x_pair,
+                              arma::mat x_ind,
+                              arma::mat z,
+                              int n_star,
+                              int n,
+                              int p_x,
+                              int p_d,
+                              arma::vec beta_old,
+                              arma::vec gamma_old,
+                              arma::vec theta_old);
+
+double neg_two_loglike_update_clust(arma::vec y,
+                                    arma::mat x_pair,
+                                    arma::mat x_ind,
+                                    arma::mat z, 
+                                    arma::vec beta,
+                                    arma::vec gamma,
+                                    arma::vec theta);
+
+Rcpp::List Clustered(int mcmc_samples,
+                     arma::vec clustered_indicators,
+                     arma::mat x_pair,
+                     arma::mat x_ind,
+                     arma::mat z,
+                     arma::mat spatial_dists,
+                     arma::mat v,
+                     double metrop_var_phi_trans,
+                     Rcpp::Nullable<double> sigma2_regress_prior,
+                     Rcpp::Nullable<double> a_sigma2_zeta_prior,
+                     Rcpp::Nullable<double> b_sigma2_zeta_prior,
+                     Rcpp::Nullable<double> a_tau2_prior,
+                     Rcpp::Nullable<double> b_tau2_prior,
+                     Rcpp::Nullable<double> a_phi_prior,
+                     Rcpp::Nullable<double> b_phi_prior,
+                     Rcpp::Nullable<Rcpp::NumericVector> beta_init,
+                     Rcpp::Nullable<Rcpp::NumericVector> gamma_init,
+                     Rcpp::Nullable<Rcpp::NumericVector> theta_init,
+                     Rcpp::Nullable<double> sigma2_zeta_init,
+                     Rcpp::Nullable<Rcpp::NumericVector> eta_init,
+                     Rcpp::Nullable<double> tau2_init,
+                     Rcpp::Nullable<double> phi_init);
+
 #endif // __GenePair__
