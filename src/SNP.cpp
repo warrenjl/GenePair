@@ -109,7 +109,7 @@ if(b_phi_prior.isNotNull()){
   }
 
 //Initial Values
-r(0) = b_r;
+r(0) = a_r;
 if(r_init.isNotNull()){
   r(0) = Rcpp::as<int>(r_init);
   }
