@@ -67,7 +67,7 @@ if(a_r_prior.isNotNull()){
   a_r = Rcpp::as<int>(a_r_prior);
   }
 
-int b_r = 50;
+int b_r = 100;
 if(b_r_prior.isNotNull()){
   b_r = Rcpp::as<int>(b_r_prior);
   }
@@ -109,7 +109,7 @@ if(b_phi_prior.isNotNull()){
   }
 
 //Initial Values
-r(0) = a_r;
+r(0) = b_r;
 if(r_init.isNotNull()){
   r(0) = Rcpp::as<int>(r_init);
   }
@@ -170,37 +170,26 @@ arma::vec omega(n_star); omega.fill(0.00);
 arma::vec lambda(n_star); lambda.fill(0.00);
 arma::mat omega_mat_delta(n_star, (p_x + p_d)); omega_mat_delta.fill(0.00);
 arma::mat omega_mat_theta(n_star, n); omega_mat_theta.fill(0.00);
+
+Rcpp::List omega_output = omega_update_snp(y,
+                                           x_pair,
+                                           x_ind,
+                                           z,
+                                           n_star,
+                                           n,
+                                           p_x,
+                                           p_d,
+                                           r(0),
+                                           beta.col(0),
+                                           gamma.col(0),
+                                           theta.col(0));
+omega = Rcpp::as<arma::vec>(omega_output[0]);
+lambda = Rcpp::as<arma::vec>(omega_output[1]);
+omega_mat_delta = Rcpp::as<arma::mat>(omega_output[2]);
+omega_mat_theta = Rcpp::as<arma::mat>(omega_output[3]);
+
 for(int j = 1; j < mcmc_samples; ++j){
   
-   //r, omega Updates
-   r(j) = r_update_snp(y,
-                       x_pair,
-                       x_ind,
-                       z,
-                       n_star,
-                       a_r,
-                       b_r,
-                       beta.col(j-1),
-                       gamma.col(j-1),
-                       theta.col(j-1));
-  
-   Rcpp::List omega_output = omega_update_snp(y,
-                                              x_pair,
-                                              x_ind,
-                                              z,
-                                              n_star,
-                                              n,
-                                              p_x,
-                                              p_d,
-                                              r(j),
-                                              beta.col(j-1),
-                                              gamma.col(j-1),
-                                              theta.col(j-1));
-   omega = Rcpp::as<arma::vec>(omega_output[0]);
-   lambda = Rcpp::as<arma::vec>(omega_output[1]);
-   omega_mat_delta = Rcpp::as<arma::mat>(omega_output[2]);
-   omega_mat_theta = Rcpp::as<arma::mat>(omega_output[3]);
-    
    //beta, gamma Update
    Rcpp::List delta_output = delta_update_snp(x,
                                               x_trans,
@@ -270,6 +259,35 @@ for(int j = 1; j < mcmc_samples; ++j){
    phi(j) = Rcpp::as<double>(phi_output[0]);
    acctot_phi_trans = phi_output[1];
    spatial_corr_info = phi_output[2];
+   
+   //r, omega Updates
+   r(j) = r_update_snp(y,
+                       x_pair,
+                       x_ind,
+                       z,
+                       n_star,
+                       a_r,
+                       b_r,
+                       beta.col(j),
+                       gamma.col(j),
+                       theta.col(j));
+   
+   Rcpp::List omega_output = omega_update_snp(y,
+                                              x_pair,
+                                              x_ind,
+                                              z,
+                                              n_star,
+                                              n,
+                                              p_x,
+                                              p_d,
+                                              r(j),
+                                              beta.col(j),
+                                              gamma.col(j),
+                                              theta.col(j));
+   omega = Rcpp::as<arma::vec>(omega_output[0]);
+   lambda = Rcpp::as<arma::vec>(omega_output[1]);
+   omega_mat_delta = Rcpp::as<arma::mat>(omega_output[2]);
+   omega_mat_theta = Rcpp::as<arma::mat>(omega_output[3]);
 
    //neg_two_loglike Update
    neg_two_loglike(j) = neg_two_loglike_update_snp(y,
@@ -299,13 +317,13 @@ for(int j = 1; j < mcmc_samples; ++j){
   
    }
                                   
-return Rcpp::List::create(Rcpp::Named("r") = r,
-                          Rcpp::Named("beta") = beta,
+return Rcpp::List::create(Rcpp::Named("beta") = beta,
                           Rcpp::Named("gamma") = gamma,
                           Rcpp::Named("theta") = theta,
                           Rcpp::Named("sigma2_zeta") = sigma2_zeta,
                           Rcpp::Named("tau2") = tau2,
                           Rcpp::Named("phi") = phi,
+                          Rcpp::Named("r") = r,
                           Rcpp::Named("neg_two_loglike") = neg_two_loglike,
                           Rcpp::Named("acctot_phi_trans") = acctot_phi_trans);
 

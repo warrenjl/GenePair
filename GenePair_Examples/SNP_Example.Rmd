@@ -167,4 +167,9 @@ round(beta_true[2], 2)
 round(rowMeans(results$gamma[,10001:20000]), 2)
 round(gamma_true, 2)
 
+#Compare r
+hist(results$r[10001:20000])
+abline(v = r_true,
+       col = "red")
+
 ```
