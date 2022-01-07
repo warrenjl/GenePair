@@ -35,7 +35,7 @@ $\beta_j, \gamma_k \stackrel{\text{iid}}{\sim}\text{N}\left(0, \sigma^2_{r}\righ
 
 $r \sim \text{Discrete Uniform}\left[a_r, b_r\right];$
 
-* Default setting: $a_r = 1$, $b_r = 50.$
+* Default setting: $a_r = 1$, $b_r = 100.$
 
 $\sigma^2_{\zeta} \sim \text{Inverse Gamma}\left(a_{\sigma^2_{\zeta}}, b_{\sigma^2_{\zeta}}\right);$
 
