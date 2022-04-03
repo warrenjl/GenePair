@@ -356,12 +356,14 @@ for(int j = 1; j < mcmc_samples; ++j){
    //theta_z_g Update
    Rcpp::List theta_z_g_output = theta_z_update_tp(z_g,
                                                    zg_trans,
+                                                   v,
                                                    n,
                                                    w_star,
                                                    lambda,
                                                    w_star_mat_theta,
                                                    theta_z_g.col(j-1),
                                                    sigma2_zeta_z_g(j-1),
+                                                   eta_z_g,
                                                    mu_z);
    
    theta_z_g.col(j) = Rcpp::as<arma::vec>(theta_z_g_output[0]);
@@ -370,12 +372,14 @@ for(int j = 1; j < mcmc_samples; ++j){
    //theta_z_r Update
    Rcpp::List theta_z_r_output = theta_z_update_tp(z_r,
                                                    zr_trans,
+                                                   v,
                                                    n,
                                                    w_star,
                                                    lambda,
                                                    w_star_mat_theta,
                                                    theta_z_r.col(j-1),
                                                    sigma2_zeta_z_r(j-1),
+                                                   eta_z_r,
                                                    mu_z);
    
    theta_z_r.col(j) = Rcpp::as<arma::vec>(theta_z_r_output[0]);

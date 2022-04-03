@@ -117,8 +117,8 @@ theta_w_update_tp <- function(z, z_trans, zgtzg, v, n, w, sigma2_epsilon, theta_
     .Call(`_GenePair_theta_w_update_tp`, z, z_trans, zgtzg, v, n, w, sigma2_epsilon, theta_w_old, sigma2_zeta_w_old, eta_w_old, mu_w_old)
 }
 
-theta_z_update_tp <- function(z, z_trans, n, w_star, lambda, w_star_mat_theta, theta_z_old, sigma2_zeta_z_old, mu_z_old) {
-    .Call(`_GenePair_theta_z_update_tp`, z, z_trans, n, w_star, lambda, w_star_mat_theta, theta_z_old, sigma2_zeta_z_old, mu_z_old)
+theta_z_update_tp <- function(z, z_trans, v, n, w_star, lambda, w_star_mat_theta, theta_z_old, sigma2_zeta_z_old, eta_z_old, mu_z_old) {
+    .Call(`_GenePair_theta_z_update_tp`, z, z_trans, v, n, w_star, lambda, w_star_mat_theta, theta_z_old, sigma2_zeta_z_old, eta_z_old, mu_z_old)
 }
 
 w_star_update_tp <- function(y, n_star, n, p_x, p_d, mu_z) {

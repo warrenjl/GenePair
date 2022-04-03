@@ -636,21 +636,23 @@ BEGIN_RCPP
 END_RCPP
 }
 // theta_z_update_tp
-Rcpp::List theta_z_update_tp(arma::mat z, arma::mat z_trans, int n, arma::vec w_star, arma::vec lambda, arma::mat w_star_mat_theta, arma::vec theta_z_old, double sigma2_zeta_z_old, arma::vec mu_z_old);
-RcppExport SEXP _GenePair_theta_z_update_tp(SEXP zSEXP, SEXP z_transSEXP, SEXP nSEXP, SEXP w_starSEXP, SEXP lambdaSEXP, SEXP w_star_mat_thetaSEXP, SEXP theta_z_oldSEXP, SEXP sigma2_zeta_z_oldSEXP, SEXP mu_z_oldSEXP) {
+Rcpp::List theta_z_update_tp(arma::mat z, arma::mat z_trans, arma::mat v, int n, arma::vec w_star, arma::vec lambda, arma::mat w_star_mat_theta, arma::vec theta_z_old, double sigma2_zeta_z_old, arma::vec eta_z_old, arma::vec mu_z_old);
+RcppExport SEXP _GenePair_theta_z_update_tp(SEXP zSEXP, SEXP z_transSEXP, SEXP vSEXP, SEXP nSEXP, SEXP w_starSEXP, SEXP lambdaSEXP, SEXP w_star_mat_thetaSEXP, SEXP theta_z_oldSEXP, SEXP sigma2_zeta_z_oldSEXP, SEXP eta_z_oldSEXP, SEXP mu_z_oldSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< arma::mat >::type z(zSEXP);
     Rcpp::traits::input_parameter< arma::mat >::type z_trans(z_transSEXP);
+    Rcpp::traits::input_parameter< arma::mat >::type v(vSEXP);
     Rcpp::traits::input_parameter< int >::type n(nSEXP);
     Rcpp::traits::input_parameter< arma::vec >::type w_star(w_starSEXP);
     Rcpp::traits::input_parameter< arma::vec >::type lambda(lambdaSEXP);
     Rcpp::traits::input_parameter< arma::mat >::type w_star_mat_theta(w_star_mat_thetaSEXP);
     Rcpp::traits::input_parameter< arma::vec >::type theta_z_old(theta_z_oldSEXP);
     Rcpp::traits::input_parameter< double >::type sigma2_zeta_z_old(sigma2_zeta_z_oldSEXP);
+    Rcpp::traits::input_parameter< arma::vec >::type eta_z_old(eta_z_oldSEXP);
     Rcpp::traits::input_parameter< arma::vec >::type mu_z_old(mu_z_oldSEXP);
-    rcpp_result_gen = Rcpp::wrap(theta_z_update_tp(z, z_trans, n, w_star, lambda, w_star_mat_theta, theta_z_old, sigma2_zeta_z_old, mu_z_old));
+    rcpp_result_gen = Rcpp::wrap(theta_z_update_tp(z, z_trans, v, n, w_star, lambda, w_star_mat_theta, theta_z_old, sigma2_zeta_z_old, eta_z_old, mu_z_old));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -715,7 +717,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_GenePair_theta_update_pd", (DL_FUNC) &_GenePair_theta_update_pd, 12},
     {"_GenePair_theta_update_snp", (DL_FUNC) &_GenePair_theta_update_snp, 13},
     {"_GenePair_theta_w_update_tp", (DL_FUNC) &_GenePair_theta_w_update_tp, 11},
-    {"_GenePair_theta_z_update_tp", (DL_FUNC) &_GenePair_theta_z_update_tp, 9},
+    {"_GenePair_theta_z_update_tp", (DL_FUNC) &_GenePair_theta_z_update_tp, 11},
     {"_GenePair_w_star_update_tp", (DL_FUNC) &_GenePair_w_star_update_tp, 6},
     {"_GenePair_w_update_tp", (DL_FUNC) &_GenePair_w_update_tp, 4},
     {NULL, NULL, 0}
