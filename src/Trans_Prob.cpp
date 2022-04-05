@@ -16,13 +16,19 @@ Rcpp::List Trans_Prob(int mcmc_samples,
                       arma::mat spatial_dists,
                       arma::mat v,
                       double metrop_var_phi_trans,
+                      arma::vec metrop_var_nu_z,
+                      arma::vec metrop_var_nu_w,
                       Rcpp::Nullable<double> sigma2_regress_prior = R_NilValue,  //Start of Priors
+                      Rcpp::Nullable<double> a_sigma2_nu_z_prior = R_NilValue,
+                      Rcpp::Nullable<double> b_sigma2_nu_z_prior = R_NilValue,
                       Rcpp::Nullable<double> a_sigma2_zeta_z_g_prior = R_NilValue,
                       Rcpp::Nullable<double> b_sigma2_zeta_z_g_prior = R_NilValue,
                       Rcpp::Nullable<double> a_sigma2_zeta_z_r_prior = R_NilValue,
                       Rcpp::Nullable<double> b_sigma2_zeta_z_r_prior = R_NilValue,
                       Rcpp::Nullable<double> a_sigma2_epsilon_prior = R_NilValue,
                       Rcpp::Nullable<double> b_sigma2_epsilon_prior = R_NilValue,
+                      Rcpp::Nullable<double> a_sigma2_nu_w_prior = R_NilValue,
+                      Rcpp::Nullable<double> b_sigma2_nu_w_prior = R_NilValue,
                       Rcpp::Nullable<double> a_sigma2_zeta_w_g_prior = R_NilValue,
                       Rcpp::Nullable<double> b_sigma2_zeta_w_g_prior = R_NilValue,
                       Rcpp::Nullable<double> a_sigma2_zeta_w_r_prior = R_NilValue,
@@ -34,6 +40,8 @@ Rcpp::List Trans_Prob(int mcmc_samples,
                       Rcpp::Nullable<Rcpp::NumericVector> beta_z_init = R_NilValue,  //Start of Initial Values
                       Rcpp::Nullable<Rcpp::NumericVector> gamma_z_g_init = R_NilValue,
                       Rcpp::Nullable<Rcpp::NumericVector> gamma_z_r_init = R_NilValue,
+                      Rcpp::Nullable<Rcpp::NumericVector> nu_z_init = R_NilValue,
+                      Rcpp::Nullable<double> sigma2_nu_z_init = R_NilValue,
                       Rcpp::Nullable<Rcpp::NumericVector> theta_z_g_init = R_NilValue,
                       Rcpp::Nullable<Rcpp::NumericVector> theta_z_r_init = R_NilValue,
                       Rcpp::Nullable<double> sigma2_zeta_z_g_init = R_NilValue,
@@ -44,6 +52,8 @@ Rcpp::List Trans_Prob(int mcmc_samples,
                       Rcpp::Nullable<Rcpp::NumericVector> beta_w_init = R_NilValue,
                       Rcpp::Nullable<Rcpp::NumericVector> gamma_w_g_init = R_NilValue,
                       Rcpp::Nullable<Rcpp::NumericVector> gamma_w_r_init = R_NilValue,
+                      Rcpp::Nullable<Rcpp::NumericVector> nu_w_init = R_NilValue,
+                      Rcpp::Nullable<double> sigma2_nu_w_init = R_NilValue,
                       Rcpp::Nullable<Rcpp::NumericVector> theta_w_g_init = R_NilValue,
                       Rcpp::Nullable<Rcpp::NumericVector> theta_w_r_init = R_NilValue,
                       Rcpp::Nullable<double> sigma2_zeta_w_g_init = R_NilValue,
@@ -60,6 +70,24 @@ int p_d = x_ind_g.n_cols;  //x_g and x_r have the Same # of Columns
 int n = z_g.n_cols;  //z_g and z_r have the Same # of Columns
 int m = v.n_cols;
 int n_star = y.size();
+
+arma::uvec index_nu(n*(n - 1)); index_nu.fill(0);
+int counter1 = 0;
+int counter2 = 0;
+for(int j = 0; j < n; ++j){
+   for(int k = 0; k < n; ++k){
+      
+      if(j != k){
+         
+        index_nu(counter2) = counter1;  //Needed for \nu Interactions
+        ++counter2;
+           
+        }
+      
+      ++counter1;
+         
+      }
+   }
 
 arma::mat x = join_horiz(x_pair,
                          x_ind_g,
@@ -79,6 +107,8 @@ arma::mat vtv = v_trans*v;
 arma::mat beta_z(p_x, mcmc_samples); beta_z.fill(0.00);
 arma::mat gamma_z_g(p_d, mcmc_samples); gamma_z_g.fill(0.00);
 arma::mat gamma_z_r(p_d, mcmc_samples); gamma_z_r.fill(0.00);
+arma::mat nu_z(n, mcmc_samples); nu_z.fill(0.00);
+arma::vec sigma2_nu_z(mcmc_samples); sigma2_nu_z.fill(0.00);
 arma::mat theta_z_g(n, mcmc_samples); theta_z_g.fill(0.00);
 arma::mat theta_z_r(n, mcmc_samples); theta_z_r.fill(0.00);
 arma::vec sigma2_zeta_z_g(mcmc_samples); sigma2_zeta_z_g.fill(0.00);
@@ -89,6 +119,8 @@ arma::vec sigma2_epsilon(mcmc_samples); sigma2_epsilon.fill(0.00);
 arma::mat beta_w(p_x, mcmc_samples); beta_w.fill(0.00);
 arma::mat gamma_w_g(p_d, mcmc_samples); gamma_w_g.fill(0.00);
 arma::mat gamma_w_r(p_d, mcmc_samples); gamma_w_r.fill(0.00);
+arma::mat nu_w(n, mcmc_samples); nu_w.fill(0.00);
+arma::vec sigma2_nu_w(mcmc_samples); sigma2_nu_w.fill(0.00);
 arma::mat theta_w_g(n, mcmc_samples); theta_w_g.fill(0.00);
 arma::mat theta_w_r(n, mcmc_samples); theta_w_r.fill(0.00);
 arma::vec sigma2_zeta_w_g(mcmc_samples); sigma2_zeta_w_g.fill(0.00);
@@ -105,6 +137,16 @@ if(sigma2_regress_prior.isNotNull()){
   sigma2_regress = Rcpp::as<double>(sigma2_regress_prior);
   }
 arma::mat x_prior = (1.00/sigma2_regress)*eye((p_x + 2*p_d), (p_x + 2*p_d));
+
+double a_sigma2_nu_z = 0.01;
+if(a_sigma2_nu_z_prior.isNotNull()){
+  a_sigma2_nu_z = Rcpp::as<double>(a_sigma2_nu_z_prior);
+  }
+
+double b_sigma2_nu_z = 0.01;
+if(b_sigma2_nu_z_prior.isNotNull()){
+  b_sigma2_nu_z = Rcpp::as<double>(b_sigma2_nu_z_prior);
+  }
 
 double a_sigma2_zeta_z_g = 0.01;
 if(a_sigma2_zeta_z_g_prior.isNotNull()){
@@ -134,6 +176,16 @@ if(a_sigma2_epsilon_prior.isNotNull()){
 double b_sigma2_epsilon = 0.01;
 if(b_sigma2_epsilon_prior.isNotNull()){
   b_sigma2_epsilon = Rcpp::as<double>(b_sigma2_epsilon_prior);
+  }
+
+double a_sigma2_nu_w = 0.01;
+if(a_sigma2_nu_w_prior.isNotNull()){
+  a_sigma2_nu_w = Rcpp::as<double>(a_sigma2_nu_w_prior);
+  }
+
+double b_sigma2_nu_w = 0.01;
+if(b_sigma2_nu_w_prior.isNotNull()){
+  b_sigma2_nu_w = Rcpp::as<double>(b_sigma2_nu_w_prior);
   }
 
 double a_sigma2_zeta_w_g = 0.01;
@@ -192,6 +244,16 @@ if(gamma_z_r_init.isNotNull()){
   gamma_z_r.col(0) = Rcpp::as<arma::vec>(gamma_z_r_init);
   }
 
+nu_z.col(0).fill(0.00);
+if(nu_z_init.isNotNull()){
+  nu_z.col(0) = Rcpp::as<arma::vec>(nu_z_init);
+  }
+
+sigma2_nu_z(0) = 1.00;
+if(sigma2_nu_z_init.isNotNull()){
+  sigma2_nu_z(0) = Rcpp::as<double>(sigma2_nu_z_init);
+  }
+
 theta_z_g.col(0).fill(0.00);
 if(theta_z_g_init.isNotNull()){
   theta_z_g.col(0) = Rcpp::as<arma::vec>(theta_z_g_init);
@@ -242,6 +304,16 @@ if(gamma_w_r_init.isNotNull()){
   gamma_w_r.col(0) = Rcpp::as<arma::vec>(gamma_w_r_init);
   }
 
+nu_w.col(0).fill(0.00);
+if(nu_w_init.isNotNull()){
+  nu_w.col(0) = Rcpp::as<arma::vec>(nu_w_init);
+  }
+
+sigma2_nu_w(0) = 1.00;
+if(sigma2_nu_w_init.isNotNull()){
+  sigma2_nu_w(0) = Rcpp::as<double>(sigma2_nu_w_init);
+  }
+
 theta_w_g.col(0).fill(0.00);
 if(theta_w_g_init.isNotNull()){
   theta_w_g.col(0) = Rcpp::as<arma::vec>(theta_w_g_init);
@@ -287,17 +359,21 @@ Rcpp::List spatial_corr_info = spatial_corr_fun(m,
                                                 spatial_dists,
                                                 phi(0));
 
+arma::vec nu_z_temp = vectorise(nu_z.col(0)*trans(nu_z.col(0)));
 arma::vec mu_z = x_pair*beta_z.col(0) + 
                  x_ind_g*gamma_z_g.col(0) +
                  x_ind_r*gamma_z_r.col(0) +
                  z_g*theta_z_g.col(0) + 
-                 z_r*theta_z_r.col(0);
+                 z_r*theta_z_r.col(0) +
+                 nu_z_temp.elem(index_nu);
 
+arma::vec nu_w_temp = vectorise(nu_w.col(0)*trans(nu_w.col(0)));
 arma::vec mu_w = x_pair*beta_w.col(0) + 
                  x_ind_g*gamma_w_g.col(0) +
                  x_ind_r*gamma_w_r.col(0) +
                  z_g*theta_w_g.col(0) + 
-                 z_r*theta_w_r.col(0);
+                 z_r*theta_w_r.col(0) +
+                 nu_w_temp.elem(index_nu);
 
 neg_two_loglike(0) = neg_two_loglike_update_tp(y,
                                                sigma2_epsilon(0),
@@ -306,6 +382,8 @@ neg_two_loglike(0) = neg_two_loglike_update_tp(y,
 
 //Metropolis Settings
 int acctot_phi_trans = 0;
+arma::vec acctot_nu_z(n); acctot_nu_z.fill(0);
+arma::vec acctot_nu_w(n); acctot_nu_w.fill(0);
 
 //Main Sampling Loop
 arma::vec w_star(n_star); w_star.fill(0.00);
@@ -352,6 +430,28 @@ for(int j = 1; j < mcmc_samples; ++j){
    gamma_z_g.col(j) = Rcpp::as<arma::vec>(delta_z_output[1]);
    gamma_z_r.col(j) = Rcpp::as<arma::vec>(delta_z_output[2]);
    mu_z = Rcpp::as<arma::vec>(delta_z_output[3]);
+   
+   //nu_z Update
+   Rcpp::List nu_z_output = nu_z_update_tp(y,
+                                           n,
+                                           index_nu,
+                                           nu_z.col(j-1),
+                                           sigma2_nu_z(j-1),
+                                           sigma2_epsilon(j-1),
+                                           mu_z,
+                                           mu_w,
+                                           metrop_var_nu_z,
+                                           acctot_nu_z);
+   
+   nu_z.col(j) = Rcpp::as<arma::vec>(nu_z_output[0]);
+   acctot_nu_z = Rcpp::as<arma::vec>(nu_z_output[1]);
+   mu_z = Rcpp::as<arma::vec>(nu_z_output[2]);
+      
+   //sigma2_nu_z Update
+   sigma2_nu_z(j) = sigma2_nu_update(n,
+                                     a_sigma2_nu_z,
+                                     b_sigma2_nu_z,
+                                     nu_z.col(j));
     
    //theta_z_g Update
    Rcpp::List theta_z_g_output = theta_z_update_tp(z_g,
@@ -480,6 +580,28 @@ for(int j = 1; j < mcmc_samples; ++j){
    gamma_w_g.col(j) = Rcpp::as<arma::vec>(delta_w_output[1]);
    gamma_w_r.col(j) = Rcpp::as<arma::vec>(delta_w_output[2]);
    mu_w = Rcpp::as<arma::vec>(delta_w_output[3]);
+   
+   //nu_w Update
+   Rcpp::List nu_w_output = nu_w_update_tp(y,
+                                           n,
+                                           index_nu,
+                                           sigma2_epsilon(j),
+                                           nu_w.col(j-1),
+                                           sigma2_nu_w(j-1),
+                                           mu_z,
+                                           mu_w,
+                                           metrop_var_nu_w,
+                                           acctot_nu_w);
+   
+   nu_w.col(j) = Rcpp::as<arma::vec>(nu_w_output[0]);
+   acctot_nu_w = Rcpp::as<arma::vec>(nu_w_output[1]);
+   mu_w = Rcpp::as<arma::vec>(nu_w_output[2]);
+   
+   //sigma2_nu_w Update
+   sigma2_nu_w(j) = sigma2_nu_update(n,
+                                     a_sigma2_nu_w,
+                                     b_sigma2_nu_w,
+                                     nu_w.col(j));
   
    //theta_w_g Update
    Rcpp::List theta_w_g_output = theta_w_update_tp(z_g,
@@ -622,29 +744,60 @@ for(int j = 1; j < mcmc_samples; ++j){
      Rcpp::checkUserInterrupt();
      }
   
+   //Reminder Message About Sorting
+   if(j == 1){
+     
+     Rcpp::Rcout << "###################################################################" << std::endl;
+     Rcpp::Rcout << "Data Must Be Sorted As: (1,2), (1,3), ..., (2,1), (2,3),...(n,n-1)." << std::endl;
+     Rcpp::Rcout << "###################################################################" << std::endl;
+      
+     }
+   
    if(((j + 1) % int(round(mcmc_samples*0.10)) == 0)){
     
      double completion = round(100*((j + 1)/(double)mcmc_samples));
      Rcpp::Rcout << "Progress: " << completion << "%" << std::endl;
+     
+     double accrate_nu_z_min = round(100*(min(acctot_nu_z)/(double)j));
+     Rcpp::Rcout << "nu_z Acceptance (min): " << accrate_nu_z_min << "%" << std::endl;
+     
+     double accrate_nu_z_max = round(100*(max(acctot_nu_z)/(double)j));
+     Rcpp::Rcout << "nu_z Acceptance (max): " << accrate_nu_z_max << "%" << std::endl;
+     
+     double accrate_nu_w_min = round(100*(min(acctot_nu_w)/(double)j));
+     Rcpp::Rcout << "nu_w Acceptance (min): " << accrate_nu_w_min << "%" << std::endl;
+     
+     double accrate_nu_w_max = round(100*(max(acctot_nu_w)/(double)j));
+     Rcpp::Rcout << "nu_w Acceptance (max): " << accrate_nu_w_max << "%" << std::endl;
+     
      double accrate_phi_trans = round(100*(acctot_phi_trans/(double)j));
      Rcpp::Rcout << "phi Acceptance: " << accrate_phi_trans << "%" << std::endl;
-     Rcpp::Rcout << "*******************" << std::endl;
+     Rcpp::Rcout << "**************************" << std::endl;
     
      }
   
    }
-                                  
-return Rcpp::List::create(Rcpp::Named("beta_z") = beta_z,
-                          Rcpp::Named("gamma_z_g") = gamma_z_g,
-                          Rcpp::Named("gamma_z_r") = gamma_z_r,
+        
+Rcpp::List regression_info = Rcpp::List::create(Rcpp::Named("beta_z") = beta_z,
+                                                Rcpp::Named("gamma_z_g") = gamma_z_g,
+                                                Rcpp::Named("gamma_z_r") = gamma_z_r,
+                                                Rcpp::Named("beta_w") = beta_w,
+                                                Rcpp::Named("gamma_w_g") = gamma_w_g,
+                                                Rcpp::Named("gamma_w_r") = gamma_w_r);
+
+Rcpp::List metropolis_info = Rcpp::List::create(Rcpp::Named("acctot_nu_z") = acctot_nu_z,
+                                                Rcpp::Named("acctot_nu_w") = acctot_nu_w,
+                                                Rcpp::Named("acctot_phi_trans") = acctot_phi_trans);
+
+return Rcpp::List::create(Rcpp::Named("nu_z") = nu_z,
+                          Rcpp::Named("sigma2_nu_z") = sigma2_nu_z,
                           Rcpp::Named("theta_z_g") = theta_z_g,
                           Rcpp::Named("theta_z_r") = theta_z_r,
                           Rcpp::Named("sigma2_zeta_z_g") = sigma2_zeta_z_g,
                           Rcpp::Named("sigma2_zeta_z_r") = sigma2_zeta_z_r,
                           Rcpp::Named("sigma2_epsilon") = sigma2_epsilon,
-                          Rcpp::Named("beta_w") = beta_w,
-                          Rcpp::Named("gamma_w_g") = gamma_w_g,
-                          Rcpp::Named("gamma_w_r") = gamma_w_r,
+                          Rcpp::Named("nu_w") = nu_w,
+                          Rcpp::Named("sigma2_nu_w") = sigma2_nu_w,
                           Rcpp::Named("theta_w_g") = theta_w_g,
                           Rcpp::Named("theta_w_r") = theta_w_r,
                           Rcpp::Named("sigma2_zeta_w_g") = sigma2_zeta_w_g,
@@ -652,7 +805,8 @@ return Rcpp::List::create(Rcpp::Named("beta_z") = beta_z,
                           Rcpp::Named("Sigma") = Sigma,
                           Rcpp::Named("phi") = phi,
                           Rcpp::Named("neg_two_loglike") = neg_two_loglike,
-                          Rcpp::Named("acctot_phi_trans") = acctot_phi_trans);
+                          Rcpp::Named("regression_info") = regression_info,
+                          Rcpp::Named("metropolis_info") = metropolis_info);
 
 }
 

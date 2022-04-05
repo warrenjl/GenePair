@@ -121,6 +121,7 @@ gamma_z_g_true<-c(2.10,
                   -1.24)
 gamma_z_r_true<-c(1.05,
                   0.56)
+sigma2_nu_z_true<-0.01
 sigma2_zeta_z_g_true<-0.01
 sigma2_zeta_z_r_true<-0.01
 
@@ -131,6 +132,7 @@ gamma_w_g_true<-c(0.80,
                   -0.35)
 gamma_w_r_true<-c(-1.10,
                   -0.75)
+sigma2_nu_w_true<-0.01
 sigma2_zeta_w_g_true<-0.01
 sigma2_zeta_w_r_true<-0.01
 
@@ -172,11 +174,19 @@ theta_w_r_true<-eta_full_true[(3*n + 1):(4*n)] +
 theta_w_r_true<-theta_w_r_true -
                 mean(theta_w_r_true)
 
+nu_z_true<-rnorm(n = n,
+                 mean = 0.00,
+                 sd = sqrt(sigma2_nu_z_true))
+nu_w_true<-rnorm(n = n,
+                 mean = 0.00,
+                 sd = sqrt(sigma2_nu_w_true))
+
 mu_z<-x_pair%*%beta_z_true + 
       x_ind_g%*%gamma_z_g_true +
       x_ind_r%*%gamma_z_r_true +
       z_g%*%theta_z_g_true + 
-      z_r%*%theta_z_r_true
+      z_r%*%theta_z_r_true + 
+      tcrossprod(nu_z_true)[-seq(1, (n^2), (n+1))]
 
 probs_z<-1.00/(1.00 + exp(-mu_z))
 bin<-rbinom(n = n_star,
@@ -187,7 +197,8 @@ mu_w<-x_pair%*%beta_w_true +
       x_ind_g%*%gamma_w_g_true +
       x_ind_r%*%gamma_w_r_true +
       z_g%*%theta_w_g_true + 
-      z_r%*%theta_w_r_true
+      z_r%*%theta_w_r_true + 
+      tcrossprod(nu_w_true)[-seq(1, (n^2), (n+1))]
    
 w<-rnorm(n = n_star,
          mean = mu_w,
@@ -202,7 +213,7 @@ hist(trans_probs)
 
 ```{r echo=TRUE}
 results<-Trans_Prob(mcmc_samples = 10000,
-                    trans_probs =  trans_probs, 
+                    transmission_probabilities =  trans_probs, 
                     x_pair = x_pair, 
                     x_ind_g = x_ind_g,
                     x_ind_r = x_ind_r,
@@ -210,6 +221,10 @@ results<-Trans_Prob(mcmc_samples = 10000,
                     z_r = z_r,
                     spatial_dists = spatial_dists,
                     v = v,
+                    metrop_var_nu_z = rep(0.35, 
+                                          times = n),
+                    metrop_var_nu_w = rep(0.05,
+                                          times = n),
                     metrop_var_phi_trans = 0.20)
 ```
 
@@ -235,34 +250,42 @@ plot(rowMeans(results$theta_w_r[,2001:10000]),
 abline(0,1)
 
 #Compare \beta
-round(rowMeans(results$beta_z[,2001:10000]), 2)
+round(rowMeans(results$regression_info$beta_z[,2001:10000]), 2)
 round(beta_z_true, 2)
-round(rowMeans(results$beta_w[,2001:10000]), 2)
+round(rowMeans(results$regression_info$beta_w[,2001:10000]), 2)
 round(beta_w_true, 2)
 
 #Compare \gamma_z_g
-round(rowMeans(results$gamma_z_g[,2001:10000]), 2)
+round(rowMeans(results$regression_info$gamma_z_g[,2001:10000]), 2)
 round(gamma_z_g_true, 2)
 
-round(rowMeans(results$gamma_z_r[,2001:10000]), 2)
+round(rowMeans(results$regression_info$gamma_z_r[,2001:10000]), 2)
 round(gamma_z_r_true, 2)
 
-round(rowMeans(results$gamma_w_g[,2001:10000]), 2)
+round(rowMeans(results$regression_info$gamma_w_g[,2001:10000]), 2)
 round(gamma_w_g_true, 2)
 
-round(rowMeans(results$gamma_w_r[,2001:10000]), 2)
+round(rowMeans(results$regression_info$gamma_w_r[,2001:10000]), 2)
 round(gamma_w_r_true, 2)
 
 #Compare \sigma2_epsilon
-round(mean(results$sigma2_epsilon[2001:10000]), 2)
+round(median(results$sigma2_epsilon[2001:10000]), 2)
 sigma2_epsilon_true
+
+#Compare \sigma2_nu_z
+round(median(results$sigma2_nu_z[2001:10000]), 2)
+sigma2_nu_z_true
+
+#Compare \sigma2_nu_w
+round(median(results$sigma2_nu_w[2001:10000]), 2)
+sigma2_nu_w_true
 
 #Compare \Sigma
 Sigma<-array(0.00,
              dim = c(10000, 4, 4))
 for(j in 1:10000){
    Sigma[j,,]<-results$Sigma[[j]]
-}
+   }
 round(colMeans(Sigma[2001:10000,,]), 2)
 Sigma_true
 ```

@@ -17,8 +17,8 @@ Sigma_update_tp <- function(m, Omega_Sigma_inv, nu_Sigma_inv, eta_z_g, eta_z_r, 
     .Call(`_GenePair_Sigma_update_tp`, m, Omega_Sigma_inv, nu_Sigma_inv, eta_z_g, eta_z_r, eta_w_g, eta_w_r, spatial_corr_inv)
 }
 
-Trans_Prob <- function(mcmc_samples, transmission_probabilities, x_pair, x_ind_g, x_ind_r, z_g, z_r, spatial_dists, v, metrop_var_phi_trans, sigma2_regress_prior = NULL, a_sigma2_zeta_z_g_prior = NULL, b_sigma2_zeta_z_g_prior = NULL, a_sigma2_zeta_z_r_prior = NULL, b_sigma2_zeta_z_r_prior = NULL, a_sigma2_epsilon_prior = NULL, b_sigma2_epsilon_prior = NULL, a_sigma2_zeta_w_g_prior = NULL, b_sigma2_zeta_w_g_prior = NULL, a_sigma2_zeta_w_r_prior = NULL, b_sigma2_zeta_w_r_prior = NULL, Omega_Sigma_inv_prior = NULL, nu_Sigma_inv_prior = NULL, a_phi_prior = NULL, b_phi_prior = NULL, beta_z_init = NULL, gamma_z_g_init = NULL, gamma_z_r_init = NULL, theta_z_g_init = NULL, theta_z_r_init = NULL, sigma2_zeta_z_g_init = NULL, sigma2_zeta_z_r_init = NULL, eta_z_g_init = NULL, eta_z_r_init = NULL, sigma2_epsilon_init = NULL, beta_w_init = NULL, gamma_w_g_init = NULL, gamma_w_r_init = NULL, theta_w_g_init = NULL, theta_w_r_init = NULL, sigma2_zeta_w_g_init = NULL, sigma2_zeta_w_r_init = NULL, eta_w_g_init = NULL, eta_w_r_init = NULL, Sigma_init = NULL, phi_init = NULL) {
-    .Call(`_GenePair_Trans_Prob`, mcmc_samples, transmission_probabilities, x_pair, x_ind_g, x_ind_r, z_g, z_r, spatial_dists, v, metrop_var_phi_trans, sigma2_regress_prior, a_sigma2_zeta_z_g_prior, b_sigma2_zeta_z_g_prior, a_sigma2_zeta_z_r_prior, b_sigma2_zeta_z_r_prior, a_sigma2_epsilon_prior, b_sigma2_epsilon_prior, a_sigma2_zeta_w_g_prior, b_sigma2_zeta_w_g_prior, a_sigma2_zeta_w_r_prior, b_sigma2_zeta_w_r_prior, Omega_Sigma_inv_prior, nu_Sigma_inv_prior, a_phi_prior, b_phi_prior, beta_z_init, gamma_z_g_init, gamma_z_r_init, theta_z_g_init, theta_z_r_init, sigma2_zeta_z_g_init, sigma2_zeta_z_r_init, eta_z_g_init, eta_z_r_init, sigma2_epsilon_init, beta_w_init, gamma_w_g_init, gamma_w_r_init, theta_w_g_init, theta_w_r_init, sigma2_zeta_w_g_init, sigma2_zeta_w_r_init, eta_w_g_init, eta_w_r_init, Sigma_init, phi_init)
+Trans_Prob <- function(mcmc_samples, transmission_probabilities, x_pair, x_ind_g, x_ind_r, z_g, z_r, spatial_dists, v, metrop_var_phi_trans, metrop_var_nu_z, metrop_var_nu_w, sigma2_regress_prior = NULL, a_sigma2_nu_z_prior = NULL, b_sigma2_nu_z_prior = NULL, a_sigma2_zeta_z_g_prior = NULL, b_sigma2_zeta_z_g_prior = NULL, a_sigma2_zeta_z_r_prior = NULL, b_sigma2_zeta_z_r_prior = NULL, a_sigma2_epsilon_prior = NULL, b_sigma2_epsilon_prior = NULL, a_sigma2_nu_w_prior = NULL, b_sigma2_nu_w_prior = NULL, a_sigma2_zeta_w_g_prior = NULL, b_sigma2_zeta_w_g_prior = NULL, a_sigma2_zeta_w_r_prior = NULL, b_sigma2_zeta_w_r_prior = NULL, Omega_Sigma_inv_prior = NULL, nu_Sigma_inv_prior = NULL, a_phi_prior = NULL, b_phi_prior = NULL, beta_z_init = NULL, gamma_z_g_init = NULL, gamma_z_r_init = NULL, nu_z_init = NULL, sigma2_nu_z_init = NULL, theta_z_g_init = NULL, theta_z_r_init = NULL, sigma2_zeta_z_g_init = NULL, sigma2_zeta_z_r_init = NULL, eta_z_g_init = NULL, eta_z_r_init = NULL, sigma2_epsilon_init = NULL, beta_w_init = NULL, gamma_w_g_init = NULL, gamma_w_r_init = NULL, nu_w_init = NULL, sigma2_nu_w_init = NULL, theta_w_g_init = NULL, theta_w_r_init = NULL, sigma2_zeta_w_g_init = NULL, sigma2_zeta_w_r_init = NULL, eta_w_g_init = NULL, eta_w_r_init = NULL, Sigma_init = NULL, phi_init = NULL) {
+    .Call(`_GenePair_Trans_Prob`, mcmc_samples, transmission_probabilities, x_pair, x_ind_g, x_ind_r, z_g, z_r, spatial_dists, v, metrop_var_phi_trans, metrop_var_nu_z, metrop_var_nu_w, sigma2_regress_prior, a_sigma2_nu_z_prior, b_sigma2_nu_z_prior, a_sigma2_zeta_z_g_prior, b_sigma2_zeta_z_g_prior, a_sigma2_zeta_z_r_prior, b_sigma2_zeta_z_r_prior, a_sigma2_epsilon_prior, b_sigma2_epsilon_prior, a_sigma2_nu_w_prior, b_sigma2_nu_w_prior, a_sigma2_zeta_w_g_prior, b_sigma2_zeta_w_g_prior, a_sigma2_zeta_w_r_prior, b_sigma2_zeta_w_r_prior, Omega_Sigma_inv_prior, nu_Sigma_inv_prior, a_phi_prior, b_phi_prior, beta_z_init, gamma_z_g_init, gamma_z_r_init, nu_z_init, sigma2_nu_z_init, theta_z_g_init, theta_z_r_init, sigma2_zeta_z_g_init, sigma2_zeta_z_r_init, eta_z_g_init, eta_z_r_init, sigma2_epsilon_init, beta_w_init, gamma_w_g_init, gamma_w_r_init, nu_w_init, sigma2_nu_w_init, theta_w_g_init, theta_w_r_init, sigma2_zeta_w_g_init, sigma2_zeta_w_r_init, eta_w_g_init, eta_w_r_init, Sigma_init, phi_init)
 }
 
 delta_update_pd <- function(y, x_trans, xtx, z, p_x, p_d, x_prior, sigma2_epsilon, theta_old) {
@@ -61,6 +61,14 @@ neg_two_loglike_update_tp <- function(y, sigma2_epsilon, mu_z, mu_w) {
     .Call(`_GenePair_neg_two_loglike_update_tp`, y, sigma2_epsilon, mu_z, mu_w)
 }
 
+nu_w_update_tp <- function(y, n, index_nu, sigma2_epsilon, nu_w_old, sigma2_nu_w_old, mu_z_old, mu_w_old, metrop_var_nu_w, acctot_nu_w) {
+    .Call(`_GenePair_nu_w_update_tp`, y, n, index_nu, sigma2_epsilon, nu_w_old, sigma2_nu_w_old, mu_z_old, mu_w_old, metrop_var_nu_w, acctot_nu_w)
+}
+
+nu_z_update_tp <- function(y, n, index_nu, nu_z_old, sigma2_nu_z_old, sigma2_epsilon_old, mu_z_old, mu_w_old, metrop_var_nu_z, acctot_nu_z) {
+    .Call(`_GenePair_nu_z_update_tp`, y, n, index_nu, nu_z_old, sigma2_nu_z_old, sigma2_epsilon_old, mu_z_old, mu_w_old, metrop_var_nu_z, acctot_nu_z)
+}
+
 omega_update_clust <- function(y, x_pair, x_ind, z, n_star, n, p_x, p_d, beta_old, gamma_old, theta_old) {
     .Call(`_GenePair_omega_update_clust`, y, x_pair, x_ind, z, n_star, n, p_x, p_d, beta_old, gamma_old, theta_old)
 }
@@ -91,6 +99,10 @@ sigma2_epsilon_update_pd <- function(y, x_pair, x_ind, z, n_star, a_sigma2_epsil
 
 sigma2_epsilon_update_tp <- function(n_star, a_sigma2_epsilon, b_sigma2_epsilon, w, mu_w) {
     .Call(`_GenePair_sigma2_epsilon_update_tp`, n_star, a_sigma2_epsilon, b_sigma2_epsilon, w, mu_w)
+}
+
+sigma2_nu_update <- function(n, a_sigma2_nu, b_sigma2_nu, nu) {
+    .Call(`_GenePair_sigma2_nu_update`, n, a_sigma2_nu, b_sigma2_nu, nu)
 }
 
 sigma2_zeta_update <- function(v, n, a_sigma2_zeta, b_sigma2_zeta, theta, eta_old) {
