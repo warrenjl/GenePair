@@ -221,9 +221,9 @@ results<-Trans_Prob(mcmc_samples = 10000,
                     z_r = z_r,
                     spatial_dists = spatial_dists,
                     v = v,
-                    metrop_var_nu_z = rep(0.35, 
+                    metrop_var_nu_z = rep(0.65, 
                                           times = n),
-                    metrop_var_nu_w = rep(0.05,
+                    metrop_var_nu_w = rep(0.10,
                                           times = n),
                     metrop_var_phi_trans = 0.20)
 ```
@@ -271,14 +271,6 @@ round(gamma_w_r_true, 2)
 #Compare \sigma2_epsilon
 round(median(results$sigma2_epsilon[2001:10000]), 2)
 sigma2_epsilon_true
-
-#Compare \sigma2_nu_z
-round(median(results$sigma2_nu_z[2001:10000]), 2)
-sigma2_nu_z_true
-
-#Compare \sigma2_nu_w
-round(median(results$sigma2_nu_w[2001:10000]), 2)
-sigma2_nu_w_true
 
 #Compare \Sigma
 Sigma<-array(0.00,
