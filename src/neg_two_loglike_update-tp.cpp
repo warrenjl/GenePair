@@ -18,6 +18,7 @@ arma::vec y_temp = log(y.elem(ids1)/(1.00 - y.elem(ids1)));
 arma::uvec ids2 = find(y == 0.00);
 
 double loglike = sum(log(probs_z.elem(ids1))) +
+                 sum(-log(y.elem(ids1)) - log(1.00 - y.elem(ids1))) +
                  -0.50*y_temp.size()*log(2*datum::pi*sigma2_epsilon) - (0.50/sigma2_epsilon)*dot((y_temp - mu_w.elem(ids1)), (y_temp - mu_w.elem(ids1))) +
                  sum(log(1.00 - probs_z.elem(ids2)));
 
