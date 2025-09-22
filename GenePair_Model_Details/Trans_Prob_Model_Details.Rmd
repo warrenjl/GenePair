@@ -76,4 +76,7 @@ $\phi \sim \text{Gamma}\left(a_{\phi}, b_{\phi}\right);$
 
 * $\phi = 1.00$.
 
+## Additional Information
+* $\text{v}$: Required input; an $n$ by $m$ matrix with $\text{v}_{ij} = 1$ if individual $i$ resides at location $\textbf{s}^*_j$ and $\text{v}_{ij} = 0$ otherwise;
 
+* It is recommended to scale the matrix of spatial distances by the largest observed distance in the matrix prior to running the model.
